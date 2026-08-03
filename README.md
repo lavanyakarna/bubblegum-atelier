@@ -1,4 +1,71 @@
-# Smart Retail & Customer Intelligence Platform
+Bubblegum Atelier — AI Smart Retail Platform
+
+An AI-powered backend platform for retail businesses, combining computer vision, NLP, and a chatbot behind a single documented REST API. Built with FastAPI, OpenCV, and TensorFlow/Keras.
+
+Features
+Customer Memory — Face recognition (OpenCV LBPH) to register and recognize returning customers, logging visits automatically.
+Product Studio — Image classification (MobileNetV2 transfer learning) that sorts product photos into categories: shoes, bags, clothing, accessories, makeup.
+Customer Mood — Sentiment analysis on customer reviews/feedback (positive / negative / neutral).
+Boutique Concierge — A rule-based FAQ chatbot answering questions about hours, returns, and shipping.
+Dashboard — Aggregate stats endpoint summarizing visits and unique customers.
+Tech Stack
+Backend: FastAPI (Python)
+Computer Vision: OpenCV (Haar cascades, LBPH face recognition)
+Deep Learning: TensorFlow / Keras (MobileNetV2 transfer learning)
+Frontend: HTML, React (via in-browser Babel), custom pastel "boutique" UI
+Auth: API key–based request authentication
+API Overview
+
+All endpoints require the header X-API-Key: <your-key>.
+
+Endpoint	Method	Description
+/chatbot	POST	Send a message, get an FAQ-based reply
+/analyze-sentiment	POST	Analyze sentiment of review/feedback text
+/classify-product	POST	Upload a product photo, get predicted category
+/register-face	POST	Register a customer's face (3–5 photos)
+/recognize-face	POST	Recognize a customer from a photo
+/dashboard/stats	GET	Aggregate visit/customer stats
+
+Full interactive API docs available at /docs (Swagger UI) once the server is running.
+
+Getting Started
+Backend
+
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+
+Backend runs at http://127.0.0.1:8000
+
+Frontend
+
+Open frontend/index.html directly in your browser. Make sure the backend is running first.
+
+Project Structure
+
+smart-retail-ai/
+├── app/
+│ ├── main.py — FastAPI entrypoint, CORS, auth
+│ ├── routers/ — API route handlers (vision.py, nlp.py, chatbot.py)
+│ ├── services/ — Core logic (cv_service.py, nlp_service.py, chatbot_service.py)
+│ └── models/ — Trained model files (.h5, .yml, .pkl)
+├── data/ — Training data, logs
+├── notebooks/ — Model training notebooks
+├── frontend/
+│ └── index.html — UI
+└── requirements.txt
+
+Ethical Considerations
+
+This project uses facial recognition, which raises real privacy and consent concerns. In a production deployment:
+
+Customers should explicitly opt in before their face is registered.
+Face data should be stored securely and deleted on request.
+Recognition accuracy can vary across demographics; results should not be used for any decision with legal or safety consequences without human review.
+This project is an academic/portfolio prototype and is not intended for production use without further privacy and fairness auditing.# Smart Retail & Customer Intelligence Platform
 
 Face recognition + product image classification + review sentiment + FAQ chatbot,
 all served through one FastAPI app.
@@ -52,13 +119,3 @@ docker build -t smart-retail-ai .
 docker run -p 8000:8000 -e RETAIL_API_KEY=your-key smart-retail-ai
 ```
 
-## What's real vs. what you still need to add
-
-- **Sentiment + chatbot**: fully trained on the sample data included here (`data/reviews.csv`,
-  `data/intents.json`). Swap in a bigger dataset (Kaggle "Women's E-Commerce Clothing Reviews")
-  and retrain the same way for higher accuracy.
-- **Face recognition**: the LBPH pipeline is fully working — register faces via the API or
-  `notebooks/02_face_recognition_setup.ipynb`.
-- **Product classifier**: code is real (MobileNetV2 transfer learning), but needs an actual
-  image dataset to train on — see `notebooks/01_image_classifier_training.ipynb`. Until you
-  train it, `/classify-product` returns `{"status": "not_trained"}` instead of crashing.
