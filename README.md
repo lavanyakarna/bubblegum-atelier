@@ -1,38 +1,46 @@
-Bubblegum Atelier — AI Smart Retail Platform
+# Bubblegum Atelier — AI Smart Retail Platform
 
 An AI-powered backend platform for retail businesses, combining computer vision, NLP, and a chatbot behind a single documented REST API. Built with FastAPI, OpenCV, and TensorFlow/Keras.
 
-Features
-Customer Memory — Face recognition (OpenCV LBPH) to register and recognize returning customers, logging visits automatically.
-Product Studio — Image classification (MobileNetV2 transfer learning) that sorts product photos into categories: shoes, bags, clothing, accessories, makeup.
-Customer Mood — Sentiment analysis on customer reviews/feedback (positive / negative / neutral).
-Boutique Concierge — A rule-based FAQ chatbot answering questions about hours, returns, and shipping.
-Dashboard — Aggregate stats endpoint summarizing visits and unique customers.
-Tech Stack
-Backend: FastAPI (Python)
-Computer Vision: OpenCV (Haar cascades, LBPH face recognition)
-Deep Learning: TensorFlow / Keras (MobileNetV2 transfer learning)
-Frontend: HTML, React (via in-browser Babel), custom pastel "boutique" UI
-Auth: API key–based request authentication
-API Overview
+## About
 
-All endpoints require the header X-API-Key: <your-key>.
+This project brings together four AI capabilities into one retail-focused backend: facial recognition for returning-customer tracking (Customer Memory), image classification for sorting product photos into categories (Product Studio), sentiment analysis for reading customer reviews (Customer Mood), and a rule-based FAQ chatbot (Boutique Concierge). Everything is exposed through a single documented REST API, with a lightweight dashboard on top summarizing visits and customer activity.
 
-Endpoint	Method	Description
-/chatbot	POST	Send a message, get an FAQ-based reply
-/analyze-sentiment	POST	Analyze sentiment of review/feedback text
-/classify-product	POST	Upload a product photo, get predicted category
-/register-face	POST	Register a customer's face (3–5 photos)
-/recognize-face	POST	Recognize a customer from a photo
-/dashboard/stats	GET	Aggregate visit/customer stats
+## Features
 
-Full interactive API docs available at /docs (Swagger UI) once the server is running.
+- **Customer Memory** — Face recognition (OpenCV LBPH) to register and recognize returning customers, logging visits automatically.
+- **Product Studio** — Image classification (MobileNetV2 transfer learning) that sorts product photos into categories: shoes, bags, clothing, accessories, makeup.
+- **Customer Mood** — Sentiment analysis on customer reviews/feedback (positive / negative / neutral).
+- **Boutique Concierge** — A rule-based FAQ chatbot answering questions about hours, returns, and shipping.
+- **Dashboard** — Aggregate stats endpoint summarizing visits and unique customers.
 
-Getting Started
-Backend
+## Tech Stack
 
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+- **Backend:** FastAPI (Python)
+- **Computer Vision:** OpenCV (Haar cascades, LBPH face recognition)
+- **Deep Learning:** TensorFlow / Keras (MobileNetV2 transfer learning)
+- **Frontend:** HTML, React (via in-browser Babel), custom pastel "boutique" UI
+- **Auth:** API key–based request authentication
+
+## API Overview
+
+All endpoints require the header X-API-Key.
+
+| Endpoint | Method | Description |
+|---|---|---|
+| /chatbot | POST | Send a message, get an FAQ-based reply |
+| /analyze-sentiment | POST | Analyze sentiment of review/feedback text |
+| /classify-product | POST | Upload a product photo, get predicted category |
+| /register-face | POST | Register a customer's face (3–5 photos) |
+| /recognize-face | POST | Recognize a customer from a photo |
+| /dashboard/stats | GET | Aggregate visit/customer stats |
+
+Full interactive API docs are available at /docs (Swagger UI) once the server is running.
+
+## Getting Started
+
+### Backend
+
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
@@ -40,35 +48,31 @@ uvicorn app.main:app --reload
 
 Backend runs at http://127.0.0.1:8000
 
-Frontend
+### Frontend
 
 Open frontend/index.html directly in your browser. Make sure the backend is running first.
 
-Project Structure
+## Project Structure
 
 smart-retail-ai/
-├── app/
-│ ├── main.py — FastAPI entrypoint, CORS, auth
-│ ├── routers/ — API route handlers (vision.py, nlp.py, chatbot.py)
-│ ├── services/ — Core logic (cv_service.py, nlp_service.py, chatbot_service.py)
-│ └── models/ — Trained model files (.h5, .yml, .pkl)
-├── data/ — Training data, logs
-├── notebooks/ — Model training notebooks
-├── frontend/
-│ └── index.html — UI
-└── requirements.txt
+- app/
+  - main.py — FastAPI entrypoint, CORS, auth
+  - routers/ — API route handlers (vision.py, nlp.py, chatbot.py)
+  - services/ — Core logic (cv_service.py, nlp_service.py, chatbot_service.py)
+  - models/ — Trained model files (.h5, .yml, .pkl)
+- data/ — Training data, logs
+- notebooks/ — Model training notebooks
+- frontend/
+  - index.html — UI
+- requirements.txt
 
-Ethical Considerations
+## Ethical Considerations
 
 This project uses facial recognition, which raises real privacy and consent concerns. In a production deployment:
-
-Customers should explicitly opt in before their face is registered.
-Face data should be stored securely and deleted on request.
-Recognition accuracy can vary across demographics; results should not be used for any decision with legal or safety consequences without human review.
-This project is an academic/portfolio prototype and is not intended for production use without further privacy and fairness auditing.# Smart Retail & Customer Intelligence Platform
-
-Face recognition + product image classification + review sentiment + FAQ chatbot,
-all served through one FastAPI app.
+- Customers should explicitly opt in before their face is registered.
+- Face data should be stored securely and deleted on request.
+- Recognition accuracy can vary across demographics; results should not be used for any decision with legal or safety consequences without human review.
+- This project is an academic/portfolio prototype and is not intended for production use without further privacy and fairness auditing.
 
 ## Quick start
 
