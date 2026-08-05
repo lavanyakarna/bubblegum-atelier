@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class SentimentRequest(BaseModel):
@@ -24,3 +25,20 @@ class DashboardStats(BaseModel):
     total_visits: int
     unique_customers: int
     sentiment_breakdown: dict
+
+
+class Product(BaseModel):
+    id: str
+    name: str
+    category: str
+    price: float
+    currency: str
+    description: str
+    sizes: list[str]
+    in_stock: bool
+    image: str
+
+
+class ProductListResponse(BaseModel):
+    products: list[Product]
+    count: int

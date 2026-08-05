@@ -1,0 +1,14 @@
+{
+  "products": [
+    {"id": "shoe-001", "name": "Sugar Rush Platform Heels", "category": "shoes", "price": 2499, "currency": "INR", "description": "Candy-pink platform heels with a comfortable block heel.", "sizes": ["5","6","7","8"], "in_stock": true, "image": "/static/products/shoe-001.jpg"},
+    {"id": "shoe-002", "name": "Bubblegum Bow Sneakers", "category": "shoes", "price": 1899, "currency": "INR", "description": "Everyday sneakers with a playful bow detail.", "sizes": ["4","5","6","7","8"], "in_stock": true, "image": "/static/products/shoe-002.jpg"},
+    {"id": "bag-001", "name": "Petal Pop Mini Crossbody", "category": "bags", "price": 1799, "currency": "INR", "description": "A compact crossbody bag in soft blush leather.", "sizes": ["One Size"], "in_stock": true, "image": "/static/products/bag-001.jpg"},
+    {"id": "bag-002", "name": "Confetti Tote", "category": "bags", "price": 2199, "currency": "INR", "description": "A roomy everyday tote with a playful confetti-print lining.", "sizes": ["One Size"], "in_stock": false, "image": "/static/products/bag-002.jpg"},
+    {"id": "cloth-001", "name": "Cherry Bomb Slip Dress", "category": "clothing", "price": 2999, "currency": "INR", "description": "A satin slip dress with a nostalgic cherry print.", "sizes": ["XS","S","M","L"], "in_stock": true, "image": "/static/products/cloth-001.jpg"},
+    {"id": "cloth-002", "name": "Dollhouse Knit Cardigan", "category": "clothing", "price": 1699, "currency": "INR", "description": "A soft pastel cardigan with pearl buttons.", "sizes": ["S","M","L","XL"], "in_stock": true, "image": "/static/products/cloth-002.jpg"},
+    {"id": "acc-001", "name": "Vanity Vault Hair Clip Set", "category": "accessories", "price": 599, "currency": "INR", "description": "A set of five pastel claw clips.", "sizes": ["One Size"], "in_stock": true, "image": "/static/products/acc-001.jpg"},
+    {"id": "acc-002", "name": "Sparkle Bomb Sunglasses", "category": "accessories", "price": 899, "currency": "INR", "description": "Oversized, glittery sunglasses.", "sizes": ["One Size"], "in_stock": true, "image": "/static/products/acc-002.jpg"},
+    {"id": "makeup-001", "name": "Bubblegum Pop Lip Tint", "category": "makeup", "price": 449, "currency": "INR", "description": "A sheer, buildable lip tint in signature bubblegum pink.", "sizes": ["One Size"], "in_stock": true, "image": "/static/products/makeup-001.jpg"},
+    {"id": "makeup-002", "name": "Candy Coated Eyeshadow Palette", "category": "makeup", "price": 1299, "currency": "INR", "description": "Nine pastel and pearl shades inspired by melted candy.", "sizes": ["One Size"], "in_stock": true, "image": "/static/products/makeup-002.jpg"}
+  ]
+}

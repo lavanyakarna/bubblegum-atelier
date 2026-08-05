@@ -5,7 +5,7 @@ from collections import Counter
 from fastapi import FastAPI, Header, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import vision, nlp, chatbot
+from app.routers import vision, nlp, chatbot, products
 
 API_KEY = os.environ.get("RETAIL_API_KEY", "dev-key-123")
 
@@ -33,6 +33,7 @@ def verify_api_key(x_api_key: str = Header(default=None)):
 app.include_router(vision.router, dependencies=[Depends(verify_api_key)])
 app.include_router(nlp.router, dependencies=[Depends(verify_api_key)])
 app.include_router(chatbot.router, dependencies=[Depends(verify_api_key)])
+app.include_router(products.router, dependencies=[Depends(verify_api_key)])
 
 
 @app.get("/")
