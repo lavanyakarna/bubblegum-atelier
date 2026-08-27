@@ -6,6 +6,7 @@ from fastapi import FastAPI, Header, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import vision, nlp, chatbot, products
+from app.routers import favorites, reviews, recommendations
 
 API_KEY = os.environ.get("RETAIL_API_KEY", "dev-key-123")
 
@@ -34,6 +35,9 @@ app.include_router(vision.router, dependencies=[Depends(verify_api_key)])
 app.include_router(nlp.router, dependencies=[Depends(verify_api_key)])
 app.include_router(chatbot.router, dependencies=[Depends(verify_api_key)])
 app.include_router(products.router, dependencies=[Depends(verify_api_key)])
+app.include_router(favorites.router, dependencies=[Depends(verify_api_key)])
+app.include_router(reviews.router, dependencies=[Depends(verify_api_key)])
+app.include_router(recommendations.router, dependencies=[Depends(verify_api_key)])
 
 
 @app.get("/")

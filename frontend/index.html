@@ -131,7 +131,7 @@
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
 /* =======================================================================
-   API CLIENT  ‚Äî single shared place for base URL + key
+   API CLIENT - single shared place for base URL + key
 ======================================================================= */
 const API_CONFIG = {
   baseUrl: "https://bubblegum-atelier.onrender.com",
@@ -152,7 +152,7 @@ async function apiRequest(path, { method = "GET", body, isForm = false } = {}) {
         return { ok: false, status: 401, message: "Oops! Access couldn't be verified. Please check your API key." };
       }
       if (res.status === 503) {
-        return { ok: false, status: 503, message: (data && data.message) || "This part of the studio is still learning ‚Äî please check back soon.", data };
+        return { ok: false, status: 503, message: (data && data.message) || "This part of the studio is still learning - please check back soon.", data };
       }
       return { ok: false, status: res.status, message: (data && data.message) || `Something went wrong (${res.status}). Please try again.`, data };
     }
@@ -180,10 +180,11 @@ const api = {
     return apiRequest("/recognize-face", { method: "POST", body: fd, isForm: true });
   },
   dashboardStats: () => apiRequest("/dashboard/stats", { method: "GET" }),
+  getProducts: (category) => apiRequest(`/products${category ? `?category=${category}` : ""}`, { method: "GET" }),
 };
 
 /* =======================================================================
-   ICONS  ‚Äî single thin-outline set, hand drawn, used consistently
+   ICONS - single thin-outline set, hand drawn, used consistently
 ======================================================================= */
 function Icon({ name, size = 20, strokeWidth = 1.6, className = "", style = {} }) {
   const common = { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth, strokeLinecap: "round", strokeLinejoin: "round", className, style };
@@ -242,7 +243,7 @@ function useCountUp(target, duration = 1100, active = true) {
    SHARED UI COMPONENTS
 ======================================================================= */
 function LoadingState({ label }) {
-  const messages = ["‚ú® Thinking...", "Scanning...", "Reading the details...", "Styling your view..."];
+  const messages = ["\u2728 Thinking...", "Scanning...", "Reading the details...", "Styling your view..."];
   const [msg] = useState(label || messages[Math.floor(Math.random() * messages.length)]);
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 20px", gap: 14 }}>
@@ -355,7 +356,7 @@ function WelcomeScreen({ onEnter }) {
         <h1 style={{ fontSize: "clamp(38px, 7vw, 64px)", lineHeight: 1.08, marginBottom: 14, letterSpacing: -0.5 }}>Bubblegum Atelier</h1>
         <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: "clamp(17px, 2.4vw, 21px)", color: "var(--pink-dark)", marginBottom: 16 }}>Where Style Meets Intelligence</p>
         <p style={{ color: "var(--text-soft)", fontSize: 15.5, lineHeight: 1.6, maxWidth: 480, margin: "0 auto 34px" }}>
-          Helping your boutique understand customers, products and stories ‚Äî one gentle insight at a time.
+          Helping your boutique understand customers, products and stories - one gentle insight at a time.
         </p>
         <button className="btn" onClick={onEnter} style={{ padding: "14px 34px", fontSize: 15.5 }}>
           Enter Studio <Icon name="chevron" size={16} />
@@ -391,6 +392,8 @@ const NAV_ITEMS = [
   { id: "concierge", label: "Boutique Concierge", icon: "chat" },
   { id: "memory", label: "Customer Memory", icon: "photo" },
   { id: "insights", label: "AI Insights", icon: "sparkle" },
+  { id: "shop", label: "Shop", icon: "bag" },
+  { id: "cart", label: "My Bag", icon: "sparkle" },
   { id: "settings", label: "Settings", icon: "gear" },
 ];
 
@@ -545,7 +548,7 @@ function OverviewPage({ session }) {
                 <Icon name="sparkle" size={17} style={{ color: "var(--pink)" }} />
                 <h3 style={{ fontSize: 16.5 }}>AI Insights</h3>
               </div>
-              <p style={{ fontSize: 12, color: "var(--text-soft)", marginBottom: 14 }}>Illustrative observations ‚Äî a preview of what deeper analysis could surface.</p>
+              <p style={{ fontSize: 12, color: "var(--text-soft)", marginBottom: 14 }}>Illustrative observations - a preview of what deeper analysis could surface.</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {insightCards.map((t, i) => (
                   <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", padding: "12px 14px", background: "var(--cream)", borderRadius: 14 }}>
@@ -646,7 +649,7 @@ function ProductStudioPage({ onClassified }) {
             </div>
             <div style={{ display: "flex", gap: 10 }}>
               <button className="btn" disabled={loading} onClick={submit} style={{ flex: 1 }}>
-                {loading ? "Identifying..." : <>‚ú® Identify Product</>}
+                {loading ? "Identifying..." : <>{"\u2728"} Identify Product</>}
               </button>
               <button className="btn btn-ghost" onClick={reset}><Icon name="x" size={15} /> Clear</button>
             </div>
@@ -667,7 +670,7 @@ function ProductStudioPage({ onClassified }) {
               </div>
             ) : (
               <div style={{ padding: 22, borderRadius: 16, background: "var(--mint)" }}>
-                <p style={{ fontWeight: 700, fontSize: 15, marginBottom: 14 }}>‚ú® Product Identified</p>
+                <p style={{ fontWeight: 700, fontSize: 15, marginBottom: 14 }}>{"\u2728"} Product Identified</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
                   <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--pink-dark)" }}>
                     <Icon name={categoryIcon[result.category] || "sparkle"} size={19} />
@@ -698,9 +701,9 @@ function CustomerMoodPage() {
   const [error, setError] = useState(null);
 
   const sentimentUi = {
-    positive: { emoji: "üòä", label: "Loved It", note: "The customer really enjoyed this product.", color: "var(--pink)", bg: "var(--pink-soft)" },
-    negative: { emoji: "‚òÅÔ∏è", label: "Needs Attention", note: "This review signals some frustration worth following up on.", color: "#8FBBA8", bg: "var(--mint)" },
-    neutral: { emoji: "üåº", label: "Mixed Feelings", note: "A balanced review ‚Äî some parts landed, others didn't.", color: "#A997E8", bg: "var(--lavender)" },
+    positive: { emoji: "\uD83D\uDE0A", label: "Loved It", note: "The customer really enjoyed this product.", color: "var(--pink)", bg: "var(--pink-soft)" },
+    negative: { emoji: "\u2601", label: "Needs Attention", note: "This review signals some frustration worth following up on.", color: "#8FBBA8", bg: "var(--mint)" },
+    neutral: { emoji: "\uD83C\uDF3C", label: "Mixed Feelings", note: "A balanced review - some parts landed, others didn't.", color: "#A997E8", bg: "var(--lavender)" },
   };
 
   function submit() {
@@ -878,7 +881,7 @@ function AddGuestTab() {
             style={{ width: "100%", border: "1.5px solid var(--border)", borderRadius: 12, padding: "12px 16px", fontSize: 14.5, outline: "none", marginBottom: 20 }}
             onFocus={(e) => e.target.style.borderColor = "var(--pink)"} onBlur={(e) => e.target.style.borderColor = "var(--border)"} />
 
-          <label style={{ fontSize: 12.5, fontWeight: 700, color: "var(--text-soft)", display: "block", marginBottom: 8 }}>PHOTOS (3‚Äì5)</label>
+          <label style={{ fontSize: 12.5, fontWeight: 700, color: "var(--text-soft)", display: "block", marginBottom: 8 }}>PHOTOS (3-5)</label>
           <div onClick={() => inputRef.current.click()} style={{ border: "2px dashed var(--pink-soft)", borderRadius: 16, padding: "26px", textAlign: "center", cursor: "pointer", background: "#FFFBFC", marginBottom: previews.length ? 16 : 0 }}>
             <Icon name="cloud" size={22} style={{ color: "var(--pink-dark)", marginBottom: 6 }} />
             <p style={{ fontSize: 13, color: "var(--text-soft)" }}>Click to add guest photos</p>
@@ -908,7 +911,7 @@ function AddGuestTab() {
           <div style={{ width: 54, height: 54, borderRadius: "50%", background: "var(--mint)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", color: "var(--pink-dark)" }}>
             <Icon name="flower" size={24} />
           </div>
-          <p style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>üå∑ Welcome, {result.customer}</p>
+          <p style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>{"\uD83C\uDF37"} Welcome, {result.customer}</p>
           <p style={{ fontSize: 13.5, color: "var(--text-soft)", marginBottom: 18 }}>{result.customer} has been added to your boutique memory.</p>
           <button className="btn btn-ghost btn-sm" onClick={reset}>Add another guest</button>
         </div>
@@ -976,7 +979,7 @@ function RecognizeGuestTab({ onSwitchToAdd }) {
               <div style={{ width: 54, height: 54, borderRadius: "50%", background: "var(--mint)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", color: "var(--pink-dark)" }}>
                 <Icon name="flower" size={24} />
               </div>
-              <p style={{ fontWeight: 700, fontSize: 18, marginBottom: 2 }}>üå∑ Welcome Back</p>
+              <p style={{ fontWeight: 700, fontSize: 18, marginBottom: 2 }}>{"\uD83C\uDF37"} Welcome Back</p>
               <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, marginBottom: 4 }}>{result.customer}</p>
               <p style={{ fontSize: 12.5, color: "var(--pink-dark)", background: "var(--pink-soft)", display: "inline-block", padding: "3px 12px", borderRadius: 999, fontWeight: 700, marginBottom: 14 }}>Returning Guest</p>
               <div style={{ maxWidth: 260, margin: "0 auto" }}>
@@ -990,7 +993,7 @@ function RecognizeGuestTab({ onSwitchToAdd }) {
               <div style={{ width: 54, height: 54, borderRadius: "50%", background: "var(--lavender)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", color: "var(--pink-dark)" }}>
                 <Icon name="sparkle" size={24} />
               </div>
-              <p style={{ fontWeight: 700, fontSize: 17, marginBottom: 4 }}>‚ú® New Visitor</p>
+              <p style={{ fontWeight: 700, fontSize: 17, marginBottom: 4 }}>{"\u2728"} New Visitor</p>
               <p style={{ fontSize: 13.5, color: "var(--text-soft)", marginBottom: 18 }}>This guest isn't in your boutique memory yet.</p>
               <button className="btn btn-sm" onClick={onSwitchToAdd}>Add this guest</button>
             </>
@@ -1035,14 +1038,14 @@ function CustomerMemoryPage() {
 ======================================================================= */
 function InsightsPage() {
   const insights = [
-    { icon: "lipstick", title: "Makeup reviews trending warm", text: "Recent feedback around makeup items leans positive ‚Äî a nice thread to feature in your next newsletter." },
+    { icon: "lipstick", title: "Makeup reviews trending warm", text: "Recent feedback around makeup items leans positive - a nice thread to feature in your next newsletter." },
     { icon: "bag", title: "Bags draw the most attention", text: "Bags are the most-photographed category in Product Studio this week." },
     { icon: "photo", title: "Returning guests browse longer", text: "Recognized guests tend to explore more categories per visit than new visitors." },
-    { icon: "chat", title: "Shipping is the top question", text: "Shipping and returns are the most common concierge topics ‚Äî consider pinning them in-store too." },
+    { icon: "chat", title: "Shipping is the top question", text: "Shipping and returns are the most common concierge topics - consider pinning them in-store too." },
   ];
   return (
     <div>
-      <PageHeader icon="sparkle" title="AI Insights" subtitle="Illustrative observations to spark ideas ‚Äî not live analytics yet." />
+      <PageHeader icon="sparkle" title="AI Insights" subtitle="Illustrative observations to spark ideas - not live analytics yet." />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
         {insights.map((c, i) => (
           <div key={i} className="card fade-up" style={{ padding: 22, animationDelay: `${i * 0.05}s` }}>
@@ -1062,10 +1065,10 @@ function InsightsPage() {
    PAGE: SETTINGS
 ======================================================================= */
 function SettingsPage() {
-  const maskedKey = API_CONFIG.apiKey.slice(0, 4) + "‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢" + API_CONFIG.apiKey.slice(-3);
+  const maskedKey = API_CONFIG.apiKey.slice(0, 4) + "*******" + API_CONFIG.apiKey.slice(-3);
   return (
     <div>
-      <PageHeader icon="gear" title="Settings" subtitle="Studio configuration ‚Äî more preferences coming soon." />
+      <PageHeader icon="gear" title="Settings" subtitle="Studio configuration - more preferences coming soon." />
       <div className="card fade-up" style={{ padding: 26, maxWidth: 560 }}>
         <p style={{ fontSize: 12.5, fontWeight: 700, color: "var(--text-soft)", marginBottom: 14 }}>CONNECTED API</p>
         <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0", borderBottom: "1px solid var(--border)" }}>
@@ -1102,6 +1105,86 @@ function PageHeader({ icon, title, subtitle }) {
 }
 
 /* =======================================================================
+   PAGE: SHOP
+======================================================================= */
+function ShopPage({ cart, setCart }) {
+  const [state, setState] = useState({ loading: true, error: null, products: [] });
+
+  const load = useCallback(() => {
+    setState({ loading: true, error: null, products: [] });
+    api.getProducts().then((res) => {
+      if (res.ok) setState({ loading: false, error: null, products: res.data.products });
+      else setState({ loading: false, error: res.message, products: [] });
+    });
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  function addToCart(p) {
+    setCart((prev) => {
+      const existing = prev.find((i) => i.id === p.id);
+      if (existing) return prev.map((i) => i.id === p.id ? { ...i, qty: i.qty + 1 } : i);
+      return [...prev, { ...p, qty: 1 }];
+    });
+  }
+
+  return (
+    <div>
+      <PageHeader icon="bag" title="Shop" subtitle="Browse the current Bubblegum Atelier collection." />
+      {state.loading && <LoadingState label="Styling your dashboard..." />}
+      {state.error && <ErrorState message={state.error} onRetry={load} />}
+      {!state.loading && !state.error && (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 18 }}>
+          {state.products.map((p) => (
+            <div key={p.id} className="card fade-up" style={{ padding: 18 }}>
+              <div style={{ height: 130, background: "var(--pink-soft)", borderRadius: 14, marginBottom: 12 }} />
+              <p style={{ fontWeight: 700, fontSize: 14.5, marginBottom: 4 }}>{p.name}</p>
+              <p style={{ fontSize: 12.5, color: "var(--text-soft)", marginBottom: 10, lineHeight: 1.45 }}>{p.description}</p>
+              <p style={{ fontWeight: 700, marginBottom: 10 }}>{"\u20B9"}{p.price}</p>
+              {p.in_stock ? (
+                <button className="btn btn-sm" onClick={() => addToCart(p)} style={{ width: "100%" }}>Add to Bag</button>
+              ) : (
+                <p style={{ fontSize: 12.5, color: "var(--text-soft)", textAlign: "center" }}>Out of stock</p>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CartPage({ cart, setCart }) {
+  const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+  return (
+    <div>
+      <PageHeader icon="sparkle" title="My Bag" subtitle="Review your picks before checkout." />
+      <div className="card fade-up" style={{ padding: 26, maxWidth: 560 }}>
+        {cart.length === 0 ? (
+          <EmptyState icon="bag" title="Your bag is empty" subtitle="Go find something cute in the Shop." />
+        ) : (
+          <>
+            {cart.map((item) => (
+              <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 0", borderBottom: "1px solid var(--border)" }}>
+                <p style={{ fontWeight: 600, fontSize: 14 }}>{item.name} x {item.qty}</p>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <span style={{ fontWeight: 700 }}>{"\u20B9"}{item.price * item.qty}</span>
+                  <button onClick={() => setCart((prev) => prev.filter((i) => i.id !== item.id))} style={{ border: "none", background: "none", color: "#EF4444", cursor: "pointer" }}>
+                    <Icon name="x" size={15} />
+                  </button>
+                </div>
+              </div>
+            ))}
+            <p style={{ fontSize: 18, fontWeight: 700, marginTop: 18 }}>Total: {"\u20B9"}{total}</p>
+            <button className="btn" style={{ marginTop: 14 }} onClick={() => alert("Order placed! (demo only, no real payment yet)")}>Checkout</button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* =======================================================================
    APP SHELL
 ======================================================================= */
 function App() {
@@ -1109,6 +1192,7 @@ function App() {
   const [page, setPage] = useState("overview");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [session, setSession] = useState({ classifyCount: 0, chatCount: 0 });
+  const [cart, setCart] = useState([]);
 
   const pageTitle = (NAV_ITEMS.find((n) => n.id === page) || {}).label || "";
 
@@ -1136,6 +1220,8 @@ function App() {
           {page === "concierge" && <ConciergePage onMessage={() => setSession((s) => ({ ...s, chatCount: s.chatCount + 1 }))} />}
           {page === "memory" && <CustomerMemoryPage />}
           {page === "insights" && <InsightsPage />}
+          {page === "shop" && <ShopPage cart={cart} setCart={setCart} />}
+          {page === "cart" && <CartPage cart={cart} setCart={setCart} />}
           {page === "settings" && <SettingsPage />}
         </div>
       </div>
