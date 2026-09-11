@@ -48,6 +48,7 @@ app.include_router(reviews.router, dependencies=[Depends(verify_api_key)])
 app.include_router(recommendations.router, dependencies=[Depends(verify_api_key)])
 app.include_router(events.router, dependencies=[Depends(verify_api_key)])
 app.include_router(cart.router, dependencies=[Depends(verify_api_key)])
+app.include_router(identity.router, dependencies=[Depends(verify_api_key)])
 
 @app.get("/")
 def root():
