@@ -4,9 +4,13 @@ from collections import Counter
 
 from fastapi import FastAPI, Header, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.routers import vision, nlp, chatbot, products
 from app.routers import favorites, reviews, recommendations
+from app.routers import events
+from app.routers import cart
+from app.routers import identity
 
 API_KEY = os.environ.get("RETAIL_API_KEY", "dev-key-123")
 
@@ -23,6 +27,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# serve product images (and other files in data/) as static files
+app.mount("/static", StaticFiles(directory="data"), name="static")
 
 
 def verify_api_key(x_api_key: str = Header(default=None)):
@@ -36,9 +42,12 @@ app.include_router(nlp.router, dependencies=[Depends(verify_api_key)])
 app.include_router(chatbot.router, dependencies=[Depends(verify_api_key)])
 app.include_router(products.router, dependencies=[Depends(verify_api_key)])
 app.include_router(favorites.router, dependencies=[Depends(verify_api_key)])
+from app.routers import funnel
+app.include_router(funnel.router, dependencies=[Depends(verify_api_key)])
 app.include_router(reviews.router, dependencies=[Depends(verify_api_key)])
 app.include_router(recommendations.router, dependencies=[Depends(verify_api_key)])
-
+app.include_router(events.router, dependencies=[Depends(verify_api_key)])
+app.include_router(cart.router, dependencies=[Depends(verify_api_key)])
 
 @app.get("/")
 def root():

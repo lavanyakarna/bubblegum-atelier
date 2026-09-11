@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "id": "27fa5902",
+    "text": "strap broke in a week, not worth it",
+    "product_id": "shoe-002",
+    "customer": null,
+    "sentiment": "negative",
+    "confidence": 0.4597,
+    "timestamp": "2026-09-11T21:22:03.770855"
+  },
+  {
+    "id": "93e4e0b8",
+    "text": "i loved it so comfy",
+    "product_id": "cloth-002",
+    "customer": null,
+    "sentiment": "positive",
+    "confidence": 0.3729,
+    "timestamp": "2026-09-11T21:27:56.432858"
+  },
+  {
+    "id": "9edbfd23",
+    "text": "too tacky",
+    "product_id": "acc-002",
+    "customer": null,
+    "sentiment": "negative",
+    "confidence": 0.3718,
+    "timestamp": "2026-09-11T21:28:09.226126"
+  }
+]

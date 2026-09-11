@@ -1,14 +1,1332 @@
 {
   "products": [
-    {"id": "shoe-001", "name": "Sugar Rush Platform Heels", "category": "shoes", "price": 2499, "currency": "INR", "description": "Candy-pink platform heels with a comfortable block heel.", "sizes": ["5","6","7","8"], "in_stock": true, "image": "/static/products/shoe-001.jpg"},
-    {"id": "shoe-002", "name": "Bubblegum Bow Sneakers", "category": "shoes", "price": 1899, "currency": "INR", "description": "Everyday sneakers with a playful bow detail.", "sizes": ["4","5","6","7","8"], "in_stock": true, "image": "/static/products/shoe-002.jpg"},
-    {"id": "bag-001", "name": "Petal Pop Mini Crossbody", "category": "bags", "price": 1799, "currency": "INR", "description": "A compact crossbody bag in soft blush leather.", "sizes": ["One Size"], "in_stock": true, "image": "/static/products/bag-001.jpg"},
-    {"id": "bag-002", "name": "Confetti Tote", "category": "bags", "price": 2199, "currency": "INR", "description": "A roomy everyday tote with a playful confetti-print lining.", "sizes": ["One Size"], "in_stock": false, "image": "/static/products/bag-002.jpg"},
-    {"id": "cloth-001", "name": "Cherry Bomb Slip Dress", "category": "clothing", "price": 2999, "currency": "INR", "description": "A satin slip dress with a nostalgic cherry print.", "sizes": ["XS","S","M","L"], "in_stock": true, "image": "/static/products/cloth-001.jpg"},
-    {"id": "cloth-002", "name": "Dollhouse Knit Cardigan", "category": "clothing", "price": 1699, "currency": "INR", "description": "A soft pastel cardigan with pearl buttons.", "sizes": ["S","M","L","XL"], "in_stock": true, "image": "/static/products/cloth-002.jpg"},
-    {"id": "acc-001", "name": "Vanity Vault Hair Clip Set", "category": "accessories", "price": 599, "currency": "INR", "description": "A set of five pastel claw clips.", "sizes": ["One Size"], "in_stock": true, "image": "/static/products/acc-001.jpg"},
-    {"id": "acc-002", "name": "Sparkle Bomb Sunglasses", "category": "accessories", "price": 899, "currency": "INR", "description": "Oversized, glittery sunglasses.", "sizes": ["One Size"], "in_stock": true, "image": "/static/products/acc-002.jpg"},
-    {"id": "makeup-001", "name": "Bubblegum Pop Lip Tint", "category": "makeup", "price": 449, "currency": "INR", "description": "A sheer, buildable lip tint in signature bubblegum pink.", "sizes": ["One Size"], "in_stock": true, "image": "/static/products/makeup-001.jpg"},
-    {"id": "makeup-002", "name": "Candy Coated Eyeshadow Palette", "category": "makeup", "price": 1299, "currency": "INR", "description": "Nine pastel and pearl shades inspired by melted candy.", "sizes": ["One Size"], "in_stock": true, "image": "/static/products/makeup-002.jpg"}
+    {
+      "id": "shoe-001",
+      "name": "Sugar Rush Platform Heels",
+      "category": "shoes",
+      "price": 2499,
+      "currency": "INR",
+      "description": "Candy-pink platform heels with a comfortable block heel.",
+      "sizes": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-001.jpg"
+    },
+    {
+      "id": "shoe-002",
+      "name": "Bubblegum Bow Sneakers",
+      "category": "shoes",
+      "price": 1899,
+      "currency": "INR",
+      "description": "Everyday sneakers with a playful bow detail.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-002.jpg"
+    },
+    {
+      "id": "bag-001",
+      "name": "Petal Pop Mini Crossbody",
+      "category": "bags",
+      "price": 1799,
+      "currency": "INR",
+      "description": "A compact crossbody bag in soft blush leather.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bag-001.jpg"
+    },
+    {
+      "id": "bag-002",
+      "name": "Confetti Tote",
+      "category": "bags",
+      "price": 2199,
+      "currency": "INR",
+      "description": "A roomy everyday tote with a playful confetti-print lining.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": false,
+      "image": "/static/products/bag-002.jpg"
+    },
+    {
+      "id": "cloth-001",
+      "name": "Cherry Bomb Slip Dress",
+      "category": "dresses",
+      "price": 2999,
+      "currency": "INR",
+      "description": "A satin slip dress with a nostalgic cherry print.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-001.jpg"
+    },
+    {
+      "id": "cloth-002",
+      "name": "Dollhouse Knit Cardigan",
+      "category": "tops",
+      "price": 1699,
+      "currency": "INR",
+      "description": "A soft pastel cardigan with pearl buttons.",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-002.jpg"
+    },
+    {
+      "id": "acc-001",
+      "name": "Vanity Vault Hair Clip Set",
+      "category": "accessories",
+      "price": 599,
+      "currency": "INR",
+      "description": "A set of five pastel claw clips.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-001.jpg"
+    },
+    {
+      "id": "acc-002",
+      "name": "Sparkle Bomb Sunglasses",
+      "category": "accessories",
+      "price": 899,
+      "currency": "INR",
+      "description": "Oversized, glittery sunglasses.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-002.jpg"
+    },
+    {
+      "id": "makeup-001",
+      "name": "Bubblegum Pop Lip Tint",
+      "category": "makeup",
+      "price": 449,
+      "currency": "INR",
+      "description": "A sheer, buildable lip tint in signature bubblegum pink.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-001.jpg"
+    },
+    {
+      "id": "makeup-002",
+      "name": "Candy Coated Eyeshadow Palette",
+      "category": "makeup",
+      "price": 1299,
+      "currency": "INR",
+      "description": "Nine pastel and pearl shades inspired by melted candy.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-002.jpg"
+    },
+    {
+      "id": "shoe-003",
+      "name": "Cherry Pop Stilettos",
+      "category": "shoes",
+      "price": 2799,
+      "currency": "INR",
+      "description": "Glossy cherry-red stilettos for main-character entrances.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-003.jpg"
+    },
+    {
+      "id": "shoe-004",
+      "name": "Strawberry Milk Mary Janes",
+      "category": "shoes",
+      "price": 1999,
+      "currency": "INR",
+      "description": "Soft pink Mary Janes with a glossy patent finish.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-004.jpg"
+    },
+    {
+      "id": "shoe-005",
+      "name": "Cloud Nine Ballet Flats",
+      "category": "shoes",
+      "price": 1499,
+      "currency": "INR",
+      "description": "Pillow-soft ballet flats in baby blush.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-005.jpg"
+    },
+    {
+      "id": "shoe-006",
+      "name": "Disco Doll Glitter Pumps",
+      "category": "shoes",
+      "price": 2499,
+      "currency": "INR",
+      "description": "Sparkle-packed pumps that catch every light on the floor.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-006.jpg"
+    },
+    {
+      "id": "shoe-007",
+      "name": "Bubble Wrap Chunky Loafers",
+      "category": "shoes",
+      "price": 2199,
+      "currency": "INR",
+      "description": "Chunky blush loafers with cushy all-day comfort.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-007.jpg"
+    },
+    {
+      "id": "shoe-008",
+      "name": "Rose Quartz Kitten Heels",
+      "category": "shoes",
+      "price": 2299,
+      "currency": "INR",
+      "description": "Dainty rose kitten heels, brunch-approved.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-008.jpg"
+    },
+    {
+      "id": "shoe-009",
+      "name": "Candy Crush High-Top Sneakers",
+      "category": "shoes",
+      "price": 1899,
+      "currency": "INR",
+      "description": "Bubblegum high-tops with contrast candy laces.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-009.jpg"
+    },
+    {
+      "id": "shoe-010",
+      "name": "Pink Lemonade Espadrilles",
+      "category": "shoes",
+      "price": 1699,
+      "currency": "INR",
+      "description": "Sunny pastel espadrilles for lazy weekends.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-010.jpg"
+    },
+    {
+      "id": "shoe-011",
+      "name": "Sweetheart Slingback Heels",
+      "category": "shoes",
+      "price": 2599,
+      "currency": "INR",
+      "description": "Heart-buckle slingbacks in dusty rose.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-011.jpg"
+    },
+    {
+      "id": "shoe-012",
+      "name": "Marshmallow Fur Slides",
+      "category": "shoes",
+      "price": 1299,
+      "currency": "INR",
+      "description": "Fluffy cloud slides you will absolutely live in.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-012.jpg"
+    },
+    {
+      "id": "shoe-013",
+      "name": "First Date Ankle Boots",
+      "category": "shoes",
+      "price": 2899,
+      "currency": "INR",
+      "description": "Sleek blush ankle boots with a walkable heel.",
+      "sizes": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "in_stock": true,
+      "image": "/static/products/shoe-013.jpg"
+    },
+    {
+      "id": "bag-003",
+      "name": "Sugar Pearl Mini Tote",
+      "category": "bags",
+      "price": 1599,
+      "currency": "INR",
+      "description": "Pearly mini tote for phone, gloss, and attitude.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bag-003.jpg"
+    },
+    {
+      "id": "bag-004",
+      "name": "Bubble Tea Bucket Bag",
+      "category": "bags",
+      "price": 1899,
+      "currency": "INR",
+      "description": "Slouchy pastel bucket bag with drawstring charm.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bag-004.jpg"
+    },
+    {
+      "id": "bag-005",
+      "name": "Cotton Candy Crossbody",
+      "category": "bags",
+      "price": 1299,
+      "currency": "INR",
+      "description": "Feather-light crossbody in swirl pink.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bag-005.jpg"
+    },
+    {
+      "id": "bag-006",
+      "name": "Heart Throb Shoulder Bag",
+      "category": "bags",
+      "price": 2199,
+      "currency": "INR",
+      "description": "Heart-clasp shoulder bag, date-night ready.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bag-006.jpg"
+    },
+    {
+      "id": "bag-007",
+      "name": "Gummy Bear Charm Satchel",
+      "category": "bags",
+      "price": 2499,
+      "currency": "INR",
+      "description": "Structured satchel with playful gummy charms.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bag-007.jpg"
+    },
+    {
+      "id": "bag-008",
+      "name": "Pinky Promise Clutch",
+      "category": "bags",
+      "price": 1499,
+      "currency": "INR",
+      "description": "Sleek rose clutch for just the essentials.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bag-008.jpg"
+    },
+    {
+      "id": "bag-009",
+      "name": "Strawberry Jam Backpack",
+      "category": "bags",
+      "price": 1999,
+      "currency": "INR",
+      "description": "Mini berry backpack with quilted sweetness.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bag-009.jpg"
+    },
+    {
+      "id": "bag-010",
+      "name": "Macaron Mini Bag",
+      "category": "bags",
+      "price": 1699,
+      "currency": "INR",
+      "description": "Macaron-shaped mini in cream blush.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bag-010.jpg"
+    },
+    {
+      "id": "bag-011",
+      "name": "Dream Girl Tote",
+      "category": "bags",
+      "price": 2299,
+      "currency": "INR",
+      "description": "Roomy everyday tote in soft peony pink.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bag-011.jpg"
+    },
+    {
+      "id": "bag-012",
+      "name": "Sprinkle Party Baguette Bag",
+      "category": "bags",
+      "price": 1799,
+      "currency": "INR",
+      "description": "Y2K baguette bag with a sprinkle bead strap.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bag-012.jpg"
+    },
+    {
+      "id": "bag-013",
+      "name": "Velvet Crush Evening Bag",
+      "category": "bags",
+      "price": 2699,
+      "currency": "INR",
+      "description": "Plush velvet evening bag with a gold chain.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": false,
+      "image": "/static/products/bag-013.jpg"
+    },
+    {
+      "id": "cloth-003",
+      "name": "Sweetheart Ribbed Crop Top",
+      "category": "tops",
+      "price": 999,
+      "currency": "INR",
+      "description": "Ribbed baby-pink crop with a sweetheart neckline.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-003.jpg"
+    },
+    {
+      "id": "cloth-004",
+      "name": "Bubble Sleeve Knit Cardigan",
+      "category": "tops",
+      "price": 1899,
+      "currency": "INR",
+      "description": "Cloud-soft cardigan with dreamy bubble sleeves.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-004.jpg"
+    },
+    {
+      "id": "cloth-005",
+      "name": "Sugar Plum Satin Slip Dress",
+      "category": "dresses",
+      "price": 2499,
+      "currency": "INR",
+      "description": "Liquid-shine satin slip in plum pink.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-005.jpg"
+    },
+    {
+      "id": "cloth-006",
+      "name": "Cherry Bomb Denim Skirt",
+      "category": "bottoms",
+      "price": 1599,
+      "currency": "INR",
+      "description": "High-waist denim mini with cherry embroidery.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-006.jpg"
+    },
+    {
+      "id": "cloth-007",
+      "name": "Pastel Dream Oversized Hoodie",
+      "category": "tops",
+      "price": 1799,
+      "currency": "INR",
+      "description": "Cloud-soft oversized hoodie in sorbet pink.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-007.jpg"
+    },
+    {
+      "id": "cloth-008",
+      "name": "Ballet Core Wrap Skirt",
+      "category": "bottoms",
+      "price": 1399,
+      "currency": "INR",
+      "description": "Floaty wrap skirt straight out of rehearsal.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-008.jpg"
+    },
+    {
+      "id": "cloth-009",
+      "name": "Pink Pop Cargo Pants",
+      "category": "bottoms",
+      "price": 1999,
+      "currency": "INR",
+      "description": "Bubblegum cargos with a relaxed street fit.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-009.jpg"
+    },
+    {
+      "id": "cloth-010",
+      "name": "Rosé All Day Blazer",
+      "category": "tops",
+      "price": 2799,
+      "currency": "INR",
+      "description": "Sharp dusty-rose blazer for soft power moves.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-010.jpg"
+    },
+    {
+      "id": "cloth-011",
+      "name": "Candy Stripe Baby Tee",
+      "category": "tops",
+      "price": 899,
+      "currency": "INR",
+      "description": "Retro candy-stripe tee with a snug fit.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-011.jpg"
+    },
+    {
+      "id": "cloth-012",
+      "name": "Tutu Cute Tulle Skirt",
+      "category": "bottoms",
+      "price": 1699,
+      "currency": "INR",
+      "description": "Layered blush tulle with maximum princess energy.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": false,
+      "image": "/static/products/cloth-012.jpg"
+    },
+    {
+      "id": "cloth-013",
+      "name": "Main Character Midi Dress",
+      "category": "dresses",
+      "price": 2599,
+      "currency": "INR",
+      "description": "Twirl-approved midi with tie-back detail.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/cloth-013.jpg"
+    },
+    {
+      "id": "acc-003",
+      "name": "Bubble Pearl Hair Claw",
+      "category": "accessories",
+      "price": 349,
+      "currency": "INR",
+      "description": "Pearly oversized claw clip for effortless updos.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-003.jpg"
+    },
+    {
+      "id": "acc-004",
+      "name": "Sugar Rush Beaded Phone Charm",
+      "category": "accessories",
+      "price": 449,
+      "currency": "INR",
+      "description": "Candy-bead charm that dresses up your phone.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-004.jpg"
+    },
+    {
+      "id": "acc-005",
+      "name": "Pink Velvet Scrunchie Set",
+      "category": "accessories",
+      "price": 399,
+      "currency": "INR",
+      "description": "Set of three velvet scrunchies in rose tones.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-005.jpg"
+    },
+    {
+      "id": "acc-006",
+      "name": "Heart Eyes Sunglasses",
+      "category": "accessories",
+      "price": 999,
+      "currency": "INR",
+      "description": "Heart-frame sunnies in translucent bubblegum.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-006.jpg"
+    },
+    {
+      "id": "acc-007",
+      "name": "Pearl Heart Choker",
+      "category": "accessories",
+      "price": 1299,
+      "currency": "INR",
+      "description": "Freshwater-pearl choker with a heart pendant.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-007.jpg"
+    },
+    {
+      "id": "acc-008",
+      "name": "Strawberry Fields Bag Charm",
+      "category": "accessories",
+      "price": 499,
+      "currency": "INR",
+      "description": "Tiny strawberry charm for bags and keys.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-008.jpg"
+    },
+    {
+      "id": "acc-009",
+      "name": "Blush Bow Hair Ribbons",
+      "category": "accessories",
+      "price": 349,
+      "currency": "INR",
+      "description": "Satin bow ribbons for pigtails and ponytails.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-009.jpg"
+    },
+    {
+      "id": "acc-010",
+      "name": "Candy Cloud Bucket Hat",
+      "category": "accessories",
+      "price": 799,
+      "currency": "INR",
+      "description": "Fuzzy blush bucket hat, festival-ready.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-010.jpg"
+    },
+    {
+      "id": "acc-011",
+      "name": "Glazed Donut Hoop Earrings",
+      "category": "accessories",
+      "price": 599,
+      "currency": "INR",
+      "description": "Glossy pastel hoops with sugar-glaze shine.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-011.jpg"
+    },
+    {
+      "id": "acc-012",
+      "name": "Rosy Charm Bracelet",
+      "category": "accessories",
+      "price": 699,
+      "currency": "INR",
+      "description": "Stacked charm bracelet with hearts and stars.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/acc-012.jpg"
+    },
+    {
+      "id": "makeup-003",
+      "name": "Bubblegum Blast Lip Gloss",
+      "category": "makeup",
+      "price": 549,
+      "currency": "INR",
+      "description": "Glass-shine gloss in sheer bubblegum pink.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-003.jpg"
+    },
+    {
+      "id": "makeup-004",
+      "name": "Strawberry Sugar Lip Scrub",
+      "category": "makeup",
+      "price": 449,
+      "currency": "INR",
+      "description": "Sweet exfoliating scrub for pillowy lips.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-004.jpg"
+    },
+    {
+      "id": "makeup-005",
+      "name": "Pink Lemonade Blush Duo",
+      "category": "makeup",
+      "price": 799,
+      "currency": "INR",
+      "description": "Buildable cream blush in two juicy pinks.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-005.jpg"
+    },
+    {
+      "id": "makeup-006",
+      "name": "Candy Floss Eyeshadow Palette",
+      "category": "makeup",
+      "price": 1299,
+      "currency": "INR",
+      "description": "Nine dreamy pastels, zero fallout drama.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-006.jpg"
+    },
+    {
+      "id": "makeup-007",
+      "name": "Rosé Glow Highlighter",
+      "category": "makeup",
+      "price": 849,
+      "currency": "INR",
+      "description": "Wet-shine highlighter in rose champagne.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-007.jpg"
+    },
+    {
+      "id": "makeup-008",
+      "name": "Cherry Cola Lip Tint",
+      "category": "makeup",
+      "price": 499,
+      "currency": "INR",
+      "description": "Long-wear tint in a juicy cherry stain.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-008.jpg"
+    },
+    {
+      "id": "makeup-009",
+      "name": "Marshmallow Setting Spray",
+      "category": "makeup",
+      "price": 699,
+      "currency": "INR",
+      "description": "Dewy-finish mist that locks your look all day.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-009.jpg"
+    },
+    {
+      "id": "makeup-010",
+      "name": "Sweet Cheeks Cream Blush Stick",
+      "category": "makeup",
+      "price": 649,
+      "currency": "INR",
+      "description": "Swipe-and-blend blush in petal pink.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-010.jpg"
+    },
+    {
+      "id": "makeup-011",
+      "name": "Bubble Bath Body Shimmer",
+      "category": "makeup",
+      "price": 899,
+      "currency": "INR",
+      "description": "Fine-glitter body glow with a cotton-candy scent.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-011.jpg"
+    },
+    {
+      "id": "makeup-012",
+      "name": "Doll Lash Mascara",
+      "category": "makeup",
+      "price": 749,
+      "currency": "INR",
+      "description": "Wide-awake lash lift with clump-free curl.",
+      "sizes": [
+        "One Size"
+      ],
+      "in_stock": true,
+      "image": "/static/products/makeup-012.jpg"
+    },
+    {
+      "id": "top-001",
+      "name": "Satin Bow Cami",
+      "category": "tops",
+      "price": 1199,
+      "currency": "INR",
+      "description": "Silky blush cami with sweet tie-shoulder bows.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/top-001.jpg"
+    },
+    {
+      "id": "top-002",
+      "name": "Cloud Puff Corset Top",
+      "category": "tops",
+      "price": 1599,
+      "currency": "INR",
+      "description": "Puff-sleeve corset with a fairytale fitted shape.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/top-002.jpg"
+    },
+    {
+      "id": "top-003",
+      "name": "First Crush Peplum Blouse",
+      "category": "tops",
+      "price": 1399,
+      "currency": "INR",
+      "description": "Flirty rose peplum with a ruffle hem.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/top-003.jpg"
+    },
+    {
+      "id": "top-004",
+      "name": "Sunday Slowknit Sweater",
+      "category": "tops",
+      "price": 1799,
+      "currency": "INR",
+      "description": "Chunky soft-blush knit for couch-to-cafe days.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/top-004.jpg"
+    },
+    {
+      "id": "top-005",
+      "name": "Bubble Hem Tube Top",
+      "category": "tops",
+      "price": 999,
+      "currency": "INR",
+      "description": "Stretchy strapless bubble-hem top in candy pink.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/top-005.jpg"
+    },
+    {
+      "id": "top-006",
+      "name": "Pearl Button Cropped Shirt",
+      "category": "tops",
+      "price": 1499,
+      "currency": "INR",
+      "description": "Crisp blush cropped shirt with pearl buttons.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/top-006.jpg"
+    },
+    {
+      "id": "bottom-001",
+      "name": "Wide-Leg Dream Pants",
+      "category": "bottoms",
+      "price": 1899,
+      "currency": "INR",
+      "description": "Flowy rose wide-leg trousers, chief comfort officer.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bottom-001.jpg"
+    },
+    {
+      "id": "bottom-002",
+      "name": "Schoolgirl Crush Pleated Skirt",
+      "category": "bottoms",
+      "price": 1299,
+      "currency": "INR",
+      "description": "Classic pleated mini in soft pink check.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bottom-002.jpg"
+    },
+    {
+      "id": "bottom-003",
+      "name": "Sugar Denim Straight Jeans",
+      "category": "bottoms",
+      "price": 1999,
+      "currency": "INR",
+      "description": "High-rise straight jeans in a pink-tinted wash.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bottom-003.jpg"
+    },
+    {
+      "id": "bottom-004",
+      "name": "Tennis Court Skort",
+      "category": "bottoms",
+      "price": 1199,
+      "currency": "INR",
+      "description": "Sporty pleated skort with comfy hidden shorts.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bottom-004.jpg"
+    },
+    {
+      "id": "bottom-005",
+      "name": "Bow Pocket Mini Shorts",
+      "category": "bottoms",
+      "price": 999,
+      "currency": "INR",
+      "description": "Tailored blush shorts with bow-tied pockets.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bottom-005.jpg"
+    },
+    {
+      "id": "bottom-006",
+      "name": "Marshmallow Knit Leggings",
+      "category": "bottoms",
+      "price": 1099,
+      "currency": "INR",
+      "description": "Ribbed blush leggings, basically clouds for legs.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bottom-006.jpg"
+    },
+    {
+      "id": "bottom-007",
+      "name": "Satin Slip Midi Skirt",
+      "category": "bottoms",
+      "price": 1499,
+      "currency": "INR",
+      "description": "Liquid rose satin that swishes when you walk.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bottom-007.jpg"
+    },
+    {
+      "id": "bottom-008",
+      "name": "Corduroy Cutie Mini Skirt",
+      "category": "bottoms",
+      "price": 1299,
+      "currency": "INR",
+      "description": "Baby-pink cord A-line with a heart button.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/bottom-008.jpg"
+    },
+    {
+      "id": "dress-001",
+      "name": "Birthday Girl Mini Dress",
+      "category": "dresses",
+      "price": 2299,
+      "currency": "INR",
+      "description": "Ruffled party mini with a bow around back.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/dress-001.jpg"
+    },
+    {
+      "id": "dress-002",
+      "name": "Strawberry Sundae Sundress",
+      "category": "dresses",
+      "price": 1799,
+      "currency": "INR",
+      "description": "Sweetheart-neck sundress in berry pink.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/dress-002.jpg"
+    },
+    {
+      "id": "dress-003",
+      "name": "Princess Lessons Gown",
+      "category": "dresses",
+      "price": 2999,
+      "currency": "INR",
+      "description": "Full tulle-skirt gown for main-character moments.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/dress-003.jpg"
+    },
+    {
+      "id": "dress-004",
+      "name": "Knit Pick Sweater Dress",
+      "category": "dresses",
+      "price": 1899,
+      "currency": "INR",
+      "description": "Cozy-fitted rose knit for chilly cute days.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/dress-004.jpg"
+    },
+    {
+      "id": "dress-005",
+      "name": "Picnic Date Gingham Dress",
+      "category": "dresses",
+      "price": 1699,
+      "currency": "INR",
+      "description": "Pink gingham with a smocked, comfy bodice.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/dress-005.jpg"
+    },
+    {
+      "id": "dress-006",
+      "name": "After Party Sequin Dress",
+      "category": "dresses",
+      "price": 2499,
+      "currency": "INR",
+      "description": "Blush sequins that absolutely own the dancefloor.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/dress-006.jpg"
+    },
+    {
+      "id": "dress-007",
+      "name": "Angelcore Chiffon Maxi",
+      "category": "dresses",
+      "price": 2399,
+      "currency": "INR",
+      "description": "Floaty floor-length chiffon in petal pink.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/dress-007.jpg"
+    },
+    {
+      "id": "dress-008",
+      "name": "Pearl Trim Bodycon",
+      "category": "dresses",
+      "price": 1899,
+      "currency": "INR",
+      "description": "Figure-hugging ribbed bodycon with pearl trim.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/dress-008.jpg"
+    },
+    {
+      "id": "dress-009",
+      "name": "Collar Pop Polo Dress",
+      "category": "dresses",
+      "price": 1499,
+      "currency": "INR",
+      "description": "Sporty polo-collar mini in sorbet pink.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/dress-009.jpg"
+    },
+    {
+      "id": "dress-010",
+      "name": "Fairycore Layered Dress",
+      "category": "dresses",
+      "price": 2599,
+      "currency": "INR",
+      "description": "Layered organza petals, literal fairy energy.",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "in_stock": true,
+      "image": "/static/products/dress-010.jpg"
+    }
   ]
 }
