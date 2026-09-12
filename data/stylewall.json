@@ -1,0 +1,30 @@
+[
+  {
+    "id": "83719cab63",
+    "customer": "A guest",
+    "caption": "prettiest",
+    "rating": 5,
+    "product_id": null,
+    "photo_url": "/static/stylewall/1adec773f185.jpg",
+    "cv_tag": {
+      "category": "clothing",
+      "confidence": 0.983
+    },
+    "sentiment": {
+      "sentiment": "negative",
+      "confidence": 0.3718
+    },
+    "timestamp": "2026-09-12T09:48:01.172088+00:00",
+    "cheers": [
+      "guest-n2ghbmdl4u9mtx88x8u"
+    ],
+    "comments": [
+      {
+        "id": "bf09988f",
+        "customer": "A guest",
+        "text": "wow",
+        "timestamp": "2026-09-12T09:48:15.626802+00:00"
+      }
+    ]
+  }
+]

@@ -172,7 +172,7 @@ async function apiRequest(path, { method = "GET", body, isForm = false } = {}) {
       if (res.status === 503) {
         return { ok: false, status: 503, message: (data && data.message) || "This part of the studio is still learning - please check back soon.", data };
       }
-      return { ok: false, status: res.status, message: (data && (data.message || data.detail)) || `Something went wrong (${res.status}). Please try again.`, data };
+      return { ok: false, status: res.status, message: (data && data.message) || `Something went wrong (${res.status}). Please try again.`, data };
     }
     return { ok: true, status: res.status, data };
   } catch (err) {
@@ -199,6 +199,16 @@ const api = {
     const fd = new FormData(); fd.append("file", file);
     return apiRequest("/classify-product", { method: "POST", body: fd, isForm: true });
   },
+  registerFace: (name, files) => {
+    const fd = new FormData();
+    fd.append("name", name);
+    files.forEach((f) => fd.append("files", f));
+    return apiRequest("/register-face", { method: "POST", body: fd, isForm: true });
+  },
+  recognizeFace: (file) => {
+    const fd = new FormData(); fd.append("file", file);
+    return apiRequest("/recognize-face", { method: "POST", body: fd, isForm: true });
+  },
   dashboardStats: () => apiRequest("/dashboard/stats", { method: "GET" }),
   getProducts: (category) => apiRequest(`/products${category ? `?category=${category}` : ""}`, { method: "GET" }),
   cartGet: () => apiRequest("/cart", { method: "GET" }),
@@ -212,18 +222,6 @@ const api = {
   favGet: () => apiRequest(`/favorites/${getCustomerId()}`, { method: "GET" }),
   favAdd: (productId) => apiRequest("/favorites", { method: "POST", body: JSON.stringify({ customer: getCustomerId(), product_id: productId }) }),
   favRemove: (productId) => apiRequest("/favorites", { method: "DELETE", body: JSON.stringify({ customer: getCustomerId(), product_id: productId }) }),
-  stylewallList: (customer) => apiRequest(`/stylewall/posts${customer ? `?customer=${encodeURIComponent(customer)}` : ""}`, { method: "GET" }),
-  stylewallCreate: ({ photo, rating, caption, customer, productId }) => {
-    const fd = new FormData();
-    fd.append("photo", photo);
-    fd.append("rating", String(rating));
-    fd.append("caption", caption || "");
-    fd.append("customer", customer || "");
-    if (productId) fd.append("product_id", productId);
-    return apiRequest("/stylewall/posts", { method: "POST", body: fd, isForm: true });
-  },
-  stylewallCheer: (postId, customer) => apiRequest(`/stylewall/posts/${postId}/cheer`, { method: "POST", body: JSON.stringify({ customer }) }),
-  stylewallComment: (postId, customer, text) => apiRequest(`/stylewall/posts/${postId}/comments`, { method: "POST", body: JSON.stringify({ customer, text }) }),
 };
 
 /* =======================================================================
@@ -437,7 +435,6 @@ const NAV_ITEMS = [
   { id: "lookbook", label: "Lookbook", icon: "flower" },
   { id: "cart", label: "My Bag", icon: "sparkle" },
   { id: "concierge", label: "Concierge", icon: "chat" },
-  { id: "wall", label: "Style Wall", icon: "camera" },
   { id: "__divider", divider: true, label: "Store Tools" },
   { id: "overview", label: "Overview", icon: "home" },
   { id: "product", label: "Product Studio", icon: "photo" },
@@ -1028,6 +1025,198 @@ function ConciergePage({ onMessage }) {
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+/* =======================================================================
+   PAGE: CUSTOMER MEMORY (Add Guest / Recognize Guest)
+======================================================================= */
+function AddGuestTab() {
+  const [name, setName] = useState("");
+  const [files, setFiles] = useState([]);
+  const [previews, setPreviews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const inputRef = useRef(null);
+
+  function handleFiles(fileList) {
+    const arr = Array.from(fileList).slice(0, 5);
+    setFiles(arr);
+    setPreviews(arr.map((f) => URL.createObjectURL(f)));
+    setResult(null); setError(null);
+  }
+
+  function submit() {
+    if (!name.trim() || files.length < 1) return;
+    setLoading(true); setResult(null); setError(null);
+    api.registerFace(name.trim(), files).then((res) => {
+      setLoading(false);
+      if (res.ok) setResult(res.data);
+      else setError(res.message);
+    });
+  }
+
+  function reset() { setName(""); setFiles([]); setPreviews([]); setResult(null); setError(null); }
+
+  return (
+    <div className="card fade-up" style={{ padding: 28, maxWidth: 620 }}>
+      {!result && (
+        <>
+          <label style={{ fontSize: 12.5, fontWeight: 700, color: "var(--text-soft)", display: "block", marginBottom: 6 }}>GUEST NAME</label>
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Alice"
+            style={{ width: "100%", border: "1.5px solid var(--border)", borderRadius: 12, padding: "12px 16px", fontSize: 14.5, outline: "none", marginBottom: 20 }}
+            onFocus={(e) => e.target.style.borderColor = "var(--pink)"} onBlur={(e) => e.target.style.borderColor = "var(--border)"} />
+
+          <label style={{ fontSize: 12.5, fontWeight: 700, color: "var(--text-soft)", display: "block", marginBottom: 8 }}>PHOTOS (3-5)</label>
+          <div onClick={() => inputRef.current.click()} style={{ border: "2px dashed var(--pink-soft)", borderRadius: 16, padding: "26px", textAlign: "center", cursor: "pointer", background: "#FFFBFC", marginBottom: previews.length ? 16 : 0 }}>
+            <Icon name="cloud" size={22} style={{ color: "var(--pink-dark)", marginBottom: 6 }} />
+            <p style={{ fontSize: 13, color: "var(--text-soft)" }}>Click to add guest photos</p>
+            <input ref={inputRef} type="file" accept="image/*" multiple style={{ display: "none" }} onChange={(e) => handleFiles(e.target.files)} />
+          </div>
+
+          {previews.length > 0 && (
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>
+              {previews.map((p, i) => (
+                <img key={i} src={p} style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 12, border: "2px solid #fff", boxShadow: "var(--shadow)", animation: "popIn 0.3s ease" }} />
+              ))}
+            </div>
+          )}
+
+          <button className="btn" disabled={loading || !name.trim() || files.length < 1} onClick={submit}>
+            {loading ? "Saving..." : "Add Guest"}
+          </button>
+
+          {loading && <div style={{ marginTop: 18 }}><LoadingState label="Saving to boutique memory..." /></div>}
+          {error && <div style={{ marginTop: 18 }}><ErrorState message={error} onRetry={submit} /></div>}
+        </>
+      )}
+
+      {result && (
+        <div className="fade-up" style={{ position: "relative", textAlign: "center", padding: "24px 10px" }}>
+          <Sparkles show={true} />
+          <div style={{ width: 54, height: 54, borderRadius: "50%", background: "var(--mint)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", color: "var(--pink-dark)" }}>
+            <Icon name="flower" size={24} />
+          </div>
+          <p style={{ fontWeight: 700, fontSize: 17, marginBottom: 6 }}>{"\uD83C\uDF37"} Welcome, {result.customer}</p>
+          <p style={{ fontSize: 13.5, color: "var(--text-soft)", marginBottom: 18 }}>{result.customer} has been added to your boutique memory.</p>
+          <button className="btn btn-ghost btn-sm" onClick={reset}>Add another guest</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RecognizeGuestTab({ onSwitchToAdd }) {
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const inputRef = useRef(null);
+
+  function handleFile(f) {
+    if (!f) return;
+    setFile(f); setPreview(URL.createObjectURL(f)); setResult(null); setError(null);
+  }
+
+  function submit() {
+    if (!file) return;
+    setLoading(true); setResult(null); setError(null);
+    api.recognizeFace(file).then((res) => {
+      setLoading(false);
+      if (res.ok) setResult(res.data);
+      else setError(res.message);
+    });
+  }
+
+  function reset() { setFile(null); setPreview(null); setResult(null); setError(null); }
+
+  return (
+    <div className="card fade-up" style={{ padding: 28, maxWidth: 620 }}>
+      {!preview && (
+        <div onClick={() => inputRef.current.click()} style={{ border: "2px dashed var(--pink-soft)", borderRadius: 18, padding: "50px 20px", textAlign: "center", cursor: "pointer", background: "#FFFBFC" }}>
+          <Icon name="camera" size={26} style={{ color: "var(--pink-dark)", marginBottom: 10 }} />
+          <p style={{ fontWeight: 700, marginBottom: 4 }}>Upload a photo to recognize a guest</p>
+          <p style={{ fontSize: 13, color: "var(--text-soft)" }}>One clear face photo works best</p>
+          <input ref={inputRef} type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => handleFile(e.target.files[0])} />
+        </div>
+      )}
+
+      {preview && !result && (
+        <div style={{ textAlign: "center" }}>
+          <div style={{ display: "inline-block", background: "#fff", padding: "12px 12px 30px", boxShadow: "var(--shadow-lift)", borderRadius: 8, transform: "rotate(-1.5deg)", marginBottom: 20, animation: "popIn 0.4s ease" }}>
+            <img src={preview} style={{ width: 220, height: 220, objectFit: "cover", borderRadius: 4, display: "block" }} />
+          </div>
+          <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
+            <button className="btn" disabled={loading} onClick={submit}>{loading ? "Recognizing..." : "Recognize Guest"}</button>
+            <button className="btn btn-ghost" onClick={reset}><Icon name="x" size={15} /> Clear</button>
+          </div>
+        </div>
+      )}
+
+      {loading && <div style={{ marginTop: 18 }}><LoadingState label="Scanning..." /></div>}
+      {error && <div style={{ marginTop: 18 }}><ErrorState message={error} onRetry={submit} /></div>}
+
+      {result && !loading && (
+        <div className="fade-up" style={{ textAlign: "center", padding: "10px 6px", position: "relative" }}>
+          {result.status === "recognized" && (
+            <>
+              <Sparkles show={true} />
+              <div style={{ width: 54, height: 54, borderRadius: "50%", background: "var(--mint)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", color: "var(--pink-dark)" }}>
+                <Icon name="flower" size={24} />
+              </div>
+              <p style={{ fontWeight: 700, fontSize: 18, marginBottom: 2 }}>{"\uD83C\uDF37"} Welcome Back</p>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, marginBottom: 4 }}>{result.customer}</p>
+              <p style={{ fontSize: 12.5, color: "var(--pink-dark)", background: "var(--pink-soft)", display: "inline-block", padding: "3px 12px", borderRadius: 999, fontWeight: 700, marginBottom: 14 }}>Returning Guest</p>
+              <div style={{ maxWidth: 260, margin: "0 auto" }}>
+                <p style={{ fontSize: 12, color: "var(--text-soft)", marginBottom: 6 }}>Confidence: {Math.round(result.confidence)}%</p>
+                <ConfidenceBar percent={Math.round(result.confidence)} />
+              </div>
+            </>
+          )}
+          {result.status === "unknown" && (
+            <>
+              <div style={{ width: 54, height: 54, borderRadius: "50%", background: "var(--lavender)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", color: "var(--pink-dark)" }}>
+                <Icon name="sparkle" size={24} />
+              </div>
+              <p style={{ fontWeight: 700, fontSize: 17, marginBottom: 4 }}>{"\u2728"} New Visitor</p>
+              <p style={{ fontSize: 13.5, color: "var(--text-soft)", marginBottom: 18 }}>This guest isn't in your boutique memory yet.</p>
+              <button className="btn btn-sm" onClick={onSwitchToAdd}>Add this guest</button>
+            </>
+          )}
+          {result.status === "no_face_detected" && (
+            <>
+              <div style={{ width: 54, height: 54, borderRadius: "50%", background: "var(--cream)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px", color: "var(--pink-dark)" }}>
+                <Icon name="camera" size={22} />
+              </div>
+              <p style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>Couldn't find a face</p>
+              <p style={{ fontSize: 13.5, color: "var(--text-soft)", marginBottom: 18 }}>Try another photo with clearer lighting.</p>
+              <button className="btn btn-ghost btn-sm" onClick={reset}>Try again</button>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CustomerMemoryPage() {
+  const [tab, setTab] = useState("recognize");
+  return (
+    <div>
+      <PageHeader icon="photo" title="Customer Memory" subtitle="Recognize returning guests, or add someone new to memory." />
+      <div style={{ display: "inline-flex", background: "var(--cream)", borderRadius: 999, padding: 4, marginBottom: 22 }}>
+        {[{ id: "recognize", label: "Recognize Guest" }, { id: "add", label: "Add Guest" }].map((t) => (
+          <button key={t.id} onClick={() => setTab(t.id)} style={{
+            padding: "9px 20px", borderRadius: 999, border: "none", fontSize: 13.5, fontWeight: 700,
+            background: tab === t.id ? "var(--pink)" : "transparent", color: tab === t.id ? "#fff" : "var(--text-soft)",
+            transition: "all 0.25s ease",
+          }}>{t.label}</button>
+        ))}
+      </div>
+      {tab === "recognize" ? <RecognizeGuestTab onSwitchToAdd={() => setTab("add")} /> : <AddGuestTab />}
     </div>
   );
 }
@@ -2005,328 +2194,6 @@ function IdentityGate({ onDone }) {
   );
 }
 
-/* =======================================================================
-   PAGE: STYLE WALL (shoppers share what they bought)
-======================================================================= */
-const WALL_SENTIMENT = {
-  positive: { label: "Loved It", color: "#EC4899" },
-  neutral: { label: "Mixed Feelings", color: "#8B7CE8" },
-  negative: { label: "Needs Love", color: "#22996F" },
-};
-
-function timeAgo(iso) {
-  if (!iso) return "";
-  const stamp = iso.includes("Z") || iso.includes("+") ? iso : iso + "Z";
-  const then = new Date(stamp).getTime();
-  if (isNaN(then)) return "";
-  const mins = Math.max(0, Math.round((Date.now() - then) / 60000));
-  if (mins < 1) return "just now";
-  if (mins < 60) return mins + "m ago";
-  const hours = Math.round(mins / 60);
-  if (hours < 24) return hours + "h ago";
-  const days = Math.round(hours / 24);
-  if (days < 30) return days + "d ago";
-  return new Date(then).toLocaleDateString();
-}
-
-function wallMood(post) {
-  const s = post.sentiment;
-  if (!s || !WALL_SENTIMENT[s.sentiment]) return null;
-  if ((s.confidence || 0) < 0.5) return null;               // too unsure to show a label
-  const r = post.rating || 0;
-  if (r >= 4 && s.sentiment === "negative") return null;    // never contradict the stars
-  if (r <= 2 && s.sentiment === "positive") return null;
-  return WALL_SENTIMENT[s.sentiment];
-}
-
-function StarRow({ value, size = 15, onChange }) {
-  return (
-    <span style={{ display: "inline-flex", gap: 2 }}>
-      {[1, 2, 3, 4, 5].map((i) => (
-        <span key={i}
-              onClick={onChange ? () => onChange(i) : undefined}
-              style={{ cursor: onChange ? "pointer" : "default", lineHeight: 0 }}>
-          <Icon name="star" size={size} fill={i <= value ? "#FFB020" : "none"}
-                style={{ color: i <= value ? "#FFB020" : "var(--text-soft)" }} />
-        </span>
-      ))}
-    </span>
-  );
-}
-
-function StyleWallPage({ profile }) {
-  const [state, setState] = useState({ loading: true, error: null, posts: [] });
-  const [draft, setDraft] = useState({ rating: 5, caption: "", productId: "" });
-  const [photo, setPhoto] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [posting, setPosting] = useState(false);
-  const [notice, setNotice] = useState("");
-  const [products, setProducts] = useState([]);
-  const [openComments, setOpenComments] = useState({});
-  const [commentDrafts, setCommentDrafts] = useState({});
-  const fileRef = useRef(null);
-
-  const me = getCustomerId();
-  const myName = (profile && profile.name) || "A guest";
-
-  const load = useCallback(() => {
-    setState({ loading: true, error: null, posts: [] });
-    api.stylewallList(me).then((res) => {
-      if (res.ok) setState({ loading: false, error: null, posts: res.data.posts || [] });
-      else setState({ loading: false, error: res.message, posts: [] });
-    });
-  }, [me]);
-  useEffect(() => { load(); }, [load]);
-
-  useEffect(() => {
-    api.getProducts().then((res) => { if (res.ok) setProducts(res.data.products || []); });
-  }, []);
-
-  function pickPhoto(file) {
-    if (!file) return;
-    setPhoto(file);
-    setPreview(URL.createObjectURL(file));
-    setNotice("");
-  }
-
-  function share() {
-    if (!photo) { setNotice("Add a photo of your piece first"); return; }
-    setPosting(true);
-    setNotice("");
-    api.stylewallCreate({
-      photo, rating: draft.rating, caption: draft.caption, customer: myName, productId: draft.productId,
-    }).then((res) => {
-      setPosting(false);
-      if (!res.ok) { setNotice(res.message || "Couldn't share that just now."); return; }
-      setState((s) => ({ ...s, posts: [res.data, ...s.posts] }));
-      setPhoto(null);
-      setPreview(null);
-      setDraft({ rating: 5, caption: "", productId: "" });
-      if (fileRef.current) fileRef.current.value = "";
-      setNotice("Shared! Your look is on the wall");
-      logEvent("wall_post", draft.productId || null, { rating: draft.rating });
-    });
-  }
-
-  function cheer(post) {
-    api.stylewallCheer(post.id, me).then((res) => {
-      if (!res.ok) return;
-      setState((s) => ({
-        ...s,
-        posts: s.posts.map((p) =>
-          p.id === post.id ? { ...p, cheered: res.data.cheered, cheer_count: res.data.cheer_count } : p),
-      }));
-      if (res.data.cheered) logEvent("wall_cheer", post.product_id || null);
-    });
-  }
-
-  function addComment(post) {
-    const text = (commentDrafts[post.id] || "").trim();
-    if (!text) return;
-    api.stylewallComment(post.id, myName, text).then((res) => {
-      if (!res.ok) { setNotice(res.message || "That comment didn't go through."); return; }
-      setState((s) => ({
-        ...s,
-        posts: s.posts.map((p) => p.id === post.id
-          ? { ...p, comments: [...(p.comments || []), res.data], comment_count: (p.comment_count || 0) + 1 }
-          : p),
-      }));
-      setCommentDrafts((d) => ({ ...d, [post.id]: "" }));
-      logEvent("wall_comment", post.product_id || null);
-    });
-  }
-
-  const totalCheers = state.posts.reduce((n, p) => n + (p.cheer_count || 0), 0);
-  const rated = state.posts.filter((p) => p.rating);
-  const average = rated.length ? (rated.reduce((n, p) => n + p.rating, 0) / rated.length) : null;
-
-  return (
-    <div>
-      <PageHeader icon="camera" title="Style Wall"
-                  subtitle="Looks from our shoppers - add yours, cheer the ones you love, leave a note." />
-
-      {/* ---------------- composer ---------------- */}
-      <div className="card fade-up" style={{ padding: 20, marginBottom: 22 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-          <div style={{ width: 42, height: 42, borderRadius: "50%", background: "var(--pink-soft)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--pink-dark)", flexShrink: 0 }}>
-            <Icon name="camera" size={19} />
-          </div>
-          <div>
-            <p style={{ fontWeight: 700, fontSize: 15 }}>Share your look</p>
-            <p style={{ fontSize: 12.5, color: "var(--text-soft)" }}>
-              Snap what you bought - the studio reads the photo and the mood for you.
-            </p>
-          </div>
-        </div>
-
-        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-          <div onClick={() => fileRef.current && fileRef.current.click()}
-               title="Add a photo"
-               style={{ width: 132, height: 132, borderRadius: 18, border: "1.5px dashed var(--pink-soft)", background: preview ? "transparent" : "var(--cream)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", overflow: "hidden", flexShrink: 0 }}>
-            {preview
-              ? <img src={preview} alt="your look" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-              : <span style={{ textAlign: "center", color: "var(--pink-dark)", fontSize: 12, fontWeight: 600 }}>
-                  <Icon name="image" size={22} />
-                  <br />Add photo
-                </span>}
-          </div>
-          <input ref={fileRef} type="file" accept="image/*" style={{ display: "none" }}
-                 onChange={(e) => pickPhoto(e.target.files[0])} />
-
-          <div style={{ flex: 1, minWidth: 240, display: "flex", flexDirection: "column", gap: 10 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 12.5, color: "var(--text-soft)", fontWeight: 600 }}>Your rating</span>
-              <StarRow value={draft.rating} size={20} onChange={(r) => setDraft((d) => ({ ...d, rating: r }))} />
-            </div>
-            <input value={draft.caption}
-                   onChange={(e) => setDraft((d) => ({ ...d, caption: e.target.value }))}
-                   placeholder="Say a few words about it..."
-                   style={{ padding: "11px 16px", borderRadius: 999, border: "1px solid var(--border)", fontSize: 13.5, fontFamily: "inherit", outline: "none", background: "#fff" }} />
-            <select value={draft.productId}
-                    onChange={(e) => setDraft((d) => ({ ...d, productId: e.target.value }))}
-                    style={{ padding: "11px 16px", borderRadius: 999, border: "1px solid var(--border)", fontSize: 13.5, fontFamily: "inherit", outline: "none", background: "#fff", color: draft.productId ? "var(--text)" : "var(--text-soft)" }}>
-              <option value="">Which piece? (optional)</option>
-              {products.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
-            </select>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-              <button className="btn btn-sm" onClick={share} disabled={posting}>
-                {posting ? "Sharing..." : "Share to the wall"}
-              </button>
-              {notice && (
-                <span style={{ fontSize: 12.5, fontWeight: 600, color: notice.startsWith("Shared") ? "#22996F" : "var(--pink-dark)" }}>
-                  {notice}
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ---------------- wall ---------------- */}
-      {state.loading && <LoadingState label="Opening the wall..." />}
-      {state.error && !state.loading && <ErrorState message={state.error} onRetry={load} />}
-
-      {!state.loading && !state.error && (
-        <>
-          {state.posts.length > 0 && (
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 18 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999, background: "var(--pink-soft)", color: "var(--pink-dark)" }}>
-                {state.posts.length} {state.posts.length === 1 ? "look" : "looks"} shared
-              </span>
-              {average !== null && (
-                <span style={{ fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999, background: "var(--cream)", color: "var(--text)" }}>
-                  {average.toFixed(1)} average rating
-                </span>
-              )}
-              {totalCheers > 0 && (
-                <span style={{ fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999, background: "var(--lavender)", color: "#8B7CE8" }}>
-                  {totalCheers} cheers
-                </span>
-              )}
-            </div>
-          )}
-
-          {state.posts.length === 0 && (
-            <div className="card">
-              <EmptyState icon="camera" title="The wall is waiting for its first look"
-                          subtitle="Be the first to share a piece you bought - your photo goes up right away." />
-            </div>
-          )}
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 18 }}>
-            {state.posts.map((post) => (
-              <article key={post.id} className="card fade-up" style={{ overflow: "hidden", display: "flex", flexDirection: "column" }}>
-                <div style={{ position: "relative", background: "var(--pink-soft)" }}>
-                  <img src={API_CONFIG.baseUrl + post.photo_url}
-                       alt={post.caption || "Shared look"}
-                       loading="lazy" decoding="async"
-                       style={{ width: "100%", aspectRatio: "1 / 1", objectFit: "cover", display: "block" }} />
-                  {post.cv_tag && post.cv_tag.category && (
-                    <span style={{ position: "absolute", left: 10, bottom: 10, display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.94)", color: "var(--text)", fontSize: 11.5, fontWeight: 700, padding: "5px 11px", borderRadius: 999, boxShadow: "var(--shadow)" }}>
-                      <Icon name="sparkle" size={12} />
-                      Recognized: {post.cv_tag.category}
-                    </span>
-                  )}
-                </div>
-
-                <div style={{ padding: "14px 16px 16px", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
-                      <span style={{ width: 26, height: 26, borderRadius: "50%", background: "var(--pink-soft)", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "var(--pink-dark)", flexShrink: 0 }}>
-                        <Icon name="user" size={14} />
-                      </span>
-                      <span style={{ fontSize: 13, fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                        {post.customer}
-                      </span>
-                    </div>
-                    <span style={{ fontSize: 11.5, color: "var(--text-soft)", whiteSpace: "nowrap" }}>{timeAgo(post.timestamp)}</span>
-                  </div>
-
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    <StarRow value={post.rating || 0} />
-                    {wallMood(post) && (
-                      <span style={{ fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 999, background: "var(--lavender)", color: wallMood(post).color }}>
-                        {wallMood(post).label}
-                      </span>
-                    )}
-                  </div>
-
-                  {post.caption && <p style={{ fontSize: 13.5, lineHeight: 1.5 }}>{post.caption}</p>}
-
-                  <div style={{ marginTop: "auto", display: "flex", alignItems: "center", gap: 10, paddingTop: 4 }}>
-                    <button onClick={() => cheer(post)} className="btn btn-ghost btn-sm"
-                            title={post.cheered ? "Take back your cheer" : "Cheer this look"}
-                            aria-label={post.cheered ? "Take back your cheer" : "Cheer this look"}
-                            style={{ padding: "7px 15px", background: post.cheered ? "var(--pink-soft)" : "#fff" }}>
-                      <Icon name="heart" size={14} fill={post.cheered ? "var(--pink-dark)" : "none"}
-                            style={{ color: post.cheered ? "var(--pink-dark)" : "currentColor" }} />
-                      {post.cheer_count || 0}
-                    </button>
-                    <button onClick={() => setOpenComments((o) => ({ ...o, [post.id]: !o[post.id] }))}
-                            className="btn btn-ghost btn-sm" style={{ padding: "7px 15px" }}
-                            title={openComments[post.id] ? "Hide comments" : "Show comments"}
-                            aria-label="Comments">
-                      <Icon name="chat" size={14} />
-                      {post.comment_count || 0}
-                    </button>
-                  </div>
-
-                  {openComments[post.id] && (
-                    <div style={{ borderTop: "1px solid var(--border)", paddingTop: 10, display: "flex", flexDirection: "column", gap: 9 }}>
-                      {(post.comments || []).map((c) => (
-                        <div key={c.id} style={{ fontSize: 12.5, lineHeight: 1.45 }}>
-                          <span style={{ fontWeight: 700 }}>{c.customer}</span>{" "}
-                          <span style={{ color: "var(--text-soft)", fontSize: 11 }}>{timeAgo(c.timestamp)}</span>
-                          <p style={{ color: "var(--text)" }}>{c.text}</p>
-                        </div>
-                      ))}
-                      {!(post.comments || []).length && (
-                        <p style={{ fontSize: 12.5, color: "var(--text-soft)" }}>No comments yet - say something kind.</p>
-                      )}
-                      <div style={{ display: "flex", gap: 8 }}>
-                        <input value={commentDrafts[post.id] || ""}
-                               onChange={(e) => setCommentDrafts((d) => ({ ...d, [post.id]: e.target.value }))}
-                               onKeyDown={(e) => { if (e.key === "Enter") addComment(post); }}
-                               placeholder="Add a comment..."
-                               style={{ flex: 1, minWidth: 0, padding: "10px 14px", borderRadius: 999, border: "1px solid var(--border)", fontSize: 13, fontFamily: "inherit", outline: "none" }} />
-                        <button className="btn btn-sm" onClick={() => addComment(post)} title="Post comment"
-                                style={{ padding: "10px 14px" }}>
-                          <Icon name="send" size={14} />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
-
 function App() {
   const [entered, setEntered] = useState(false);
   const [profile, setProfile] = useState(getProfile());
@@ -2345,8 +2212,8 @@ function App() {
 
   const role = profile ? profile.role : guestRole;
   const isOwner = role === "owner";
-  const shopperNav = ["shop", "wall", "foryou", "wishlist", "lookbook", "cart", "concierge"];
-  const ownerNav = ["overview", "mood", "wall", "shop"];
+  const shopperNav = ["shop", "foryou", "wishlist", "lookbook", "cart", "concierge"];
+  const ownerNav = ["overview", "mood", "shop"];
   const visibleItems = NAV_ITEMS
     .filter((n) => (n.divider ? isOwner : (isOwner ? ownerNav : shopperNav).indexOf(n.id) !== -1))
     .map((n) => (isOwner && n.id === "shop" ? { ...n, label: "View Storefront" } : n));
@@ -2390,13 +2257,13 @@ function App() {
           {page === "product" && <ProductStudioPage onClassified={() => setSession((s) => ({ ...s, classifyCount: s.classifyCount + 1 }))} />}
           {page === "mood" && <CustomerMoodPage />}
           {page === "concierge" && <ConciergePage onMessage={() => setSession((s) => ({ ...s, chatCount: s.chatCount + 1 }))} />}
+          {page === "memory" && <CustomerMemoryPage />}
           {page === "insights" && <InsightsPage />}
           {page === "shop" && <ShopPage cart={cart} setCart={setCart} wishlist={wishlist} setWishlist={setWishlist} />}
           {page === "shop" && <StyleWall />}
           {page === "foryou" && <ForYouPage cart={cart} setCart={setCart} wishlist={wishlist} setWishlist={setWishlist} />}
           {page === "wishlist" && <WishlistPage cart={cart} setCart={setCart} wishlist={wishlist} setWishlist={setWishlist} />}
           {page === "lookbook" && <LookbookPage cart={cart} setCart={setCart} />}
-          {page === "wall" && <StyleWallPage profile={profile} />}
           {page === "cart" && <CartPage cart={cart} setCart={setCart} />}
           {page === "settings" && <SettingsPage />}
         </div>

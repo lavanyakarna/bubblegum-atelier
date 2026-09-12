@@ -1,6 +1,5 @@
 import os
 import csv
-import json
 from collections import Counter
 
 from fastapi import FastAPI, Header, HTTPException, Depends
@@ -18,8 +17,8 @@ API_KEY = os.environ.get("RETAIL_API_KEY", "dev-key-123")
 
 app = FastAPI(
     title="Bubblegum Atelier — Boutique Intelligence Platform",
-    description="Product classification (Product Studio), sentiment analysis (Customer Mood), a FAQ chatbot (Boutique Concierge) and the shopper Style Wall behind one API.",
-    version="1.1.0",
+    description="Face recognition (Customer Memory), product classification (Product Studio), sentiment analysis (Customer Mood), and FAQ chatbot (Boutique Concierge) behind one API.",
+    version="1.0.0",
 )
 
 app.add_middleware(
@@ -53,7 +52,6 @@ app.include_router(cart.router, dependencies=[Depends(verify_api_key)])
 app.include_router(identity.router, dependencies=[Depends(verify_api_key)])
 app.include_router(stylewall.router, dependencies=[Depends(verify_api_key)])
 
-
 @app.get("/")
 def root():
     return {"status": "ok", "docs": "/docs"}
@@ -61,35 +59,21 @@ def root():
 
 @app.get("/dashboard/stats", dependencies=[Depends(verify_api_key)])
 def dashboard_stats():
-    """Live numbers, read straight from the real event log."""
     data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
-    events_path = os.path.join(data_dir, "events.jsonl")
+    visits_path = os.path.join(data_dir, "customer_visits.csv")
 
-    views, customers = 0, set()
-    if os.path.exists(events_path):
-        with open(events_path, encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    entry = json.loads(line)
-                except json.JSONDecodeError:
-                    continue
-                if not isinstance(entry, dict):
-                    continue
-                if entry.get("type") == "view":
-                    views += 1
-                cid = entry.get("customer_id")
-                if cid and cid != "anonymous":
-                    customers.add(cid)
+    total_visits, customers = 0, set()
+    if os.path.exists(visits_path):
+        with open(visits_path) as f:
+            for row in csv.DictReader(f):
+                total_visits += 1
+                customers.add(row["customer"])
 
     return {
-        "total_visits": views,
+        "total_visits": total_visits,
         "unique_customers": len(customers),
         "sentiment_breakdown": {},
     }
-
 
 from fastapi.responses import JSONResponse
 from fastapi.requests import Request

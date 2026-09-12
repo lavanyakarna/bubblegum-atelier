@@ -12,7 +12,6 @@ ALLOWED_TYPES = {
     "view", "search", "wishlist_add", "wishlist_remove",
     "cart_add", "cart_update", "cart_remove",
     "checkout_intent", "rec_click", "review",
-    "wall_post", "wall_cheer", "wall_comment",
 }
 
 
