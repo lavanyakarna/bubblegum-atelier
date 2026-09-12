@@ -1,0 +1,26 @@
+{
+  "intents": [
+    {"tag": "greeting", "patterns": ["hi", "hello", "hey", "good morning", "is anyone there"], "responses": ["Hello! Welcome to our store. How can I help you today?"]},
+    {"tag": "goodbye", "patterns": ["bye", "see you later", "goodbye", "thanks bye"], "responses": ["Thanks for visiting! Have a great day."]},
+    {"tag": "thanks", "patterns": ["thanks", "thank you", "that's helpful"], "responses": ["You're welcome! Anything else I can help with?"]},
+    {"tag": "store_hours", "patterns": ["what are your store hours", "when do you open", "when do you close", "timings"], "responses": ["We're open Monday to Saturday, 10 AM to 9 PM."]},
+    {"tag": "store_location", "patterns": ["where is your store", "store address", "location of shop"], "responses": ["Our flagship store is at MG Road, near City Mall."]},
+    {"tag": "order_status", "patterns": ["where is my order", "track my order", "order status", "has my order shipped"], "responses": ["Please share your order ID and I'll check the status for you."]},
+    {"tag": "return_policy", "patterns": ["what is your return policy", "can i return this item", "how do returns work"], "responses": ["Items can be returned within 30 days with the original receipt."]},
+    {"tag": "refund_status", "patterns": ["where is my refund", "refund status", "when will i get my money back"], "responses": ["Refunds are processed within 5-7 business days after we receive the returned item."]},
+    {"tag": "exchange_policy", "patterns": ["can i exchange this", "size exchange", "how to exchange a product"], "responses": ["Yes, exchanges are allowed within 15 days, subject to stock availability."]},
+    {"tag": "payment_methods", "patterns": ["what payment methods do you accept", "can i pay by card", "do you accept upi"], "responses": ["We accept credit/debit cards, UPI, net banking, and cash."]},
+    {"tag": "shipping_cost", "patterns": ["how much is shipping", "delivery charges", "is delivery free"], "responses": ["Delivery is free on orders above 999, otherwise a flat 49 fee applies."]},
+    {"tag": "delivery_time", "patterns": ["how long does delivery take", "when will i get my order", "estimated delivery time"], "responses": ["Standard delivery takes 3-5 business days."]},
+    {"tag": "loyalty_program", "patterns": ["do you have a loyalty program", "membership benefits", "reward points"], "responses": ["Yes! Earn 1 point per 10 spent, redeemable on future purchases."]},
+    {"tag": "discount_query", "patterns": ["any ongoing offers", "discount code", "is there a sale"], "responses": ["Check our current offers page, or use code WELCOME10 for 10% off your first order."]},
+    {"tag": "product_availability", "patterns": ["is this product in stock", "do you have this in size", "product availability"], "responses": ["Let me check stock for you - please share the product name or SKU."]},
+    {"tag": "product_complaint", "patterns": ["my product is damaged", "i received a defective item", "wrong item delivered"], "responses": ["Sorry about that! Please share your order ID and a photo, we'll arrange a replacement."]},
+    {"tag": "cancel_order", "patterns": ["cancel my order", "how do i cancel an order"], "responses": ["Orders can be cancelled within 1 hour of placing them from the 'My Orders' page."]},
+    {"tag": "contact_support", "patterns": ["how do i contact support", "talk to a human", "customer care number"], "responses": ["You can reach us at support@store.com or call 1800-123-4567."]},
+    {"tag": "warranty_info", "patterns": ["what is the warranty period", "is this product under warranty"], "responses": ["Most electronics carry a 1-year manufacturer warranty."]},
+    {"tag": "size_guide", "patterns": ["do you have a size chart", "how do i pick my size"], "responses": ["Yes, check the 'Size Guide' link on every product page."]},
+    {"tag": "feedback", "patterns": ["i want to give feedback", "how was my experience", "leave a review"], "responses": ["We'd love your feedback! You can rate your order from the 'My Orders' page."]},
+    {"tag": "membership_signup", "patterns": ["how do i join the loyalty program", "sign up for membership"], "responses": ["Sign up is free on our app or website under the 'Rewards' tab."]}
+  ]
+}

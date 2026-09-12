@@ -1,0 +1,94 @@
+[
+  {
+    "id": "83719cab63",
+    "customer": "A guest",
+    "caption": "prettiest",
+    "rating": 5,
+    "product_id": null,
+    "photo_url": "/static/stylewall/1adec773f185.jpg",
+    "cv_tag": {
+      "category": "clothing",
+      "confidence": 0.983
+    },
+    "sentiment": {
+      "sentiment": "negative",
+      "confidence": 0.3718
+    },
+    "timestamp": "2026-09-12T09:48:01.172088+00:00",
+    "cheers": [
+      "guest-n2ghbmdl4u9mtx88x8u"
+    ],
+    "comments": [
+      {
+        "id": "bf09988f",
+        "customer": "A guest",
+        "text": "wow",
+        "timestamp": "2026-09-12T09:48:15.626802+00:00"
+      }
+    ]
+  },
+  {
+    "id": "9b49073b2b",
+    "customer": "pytest-wall",
+    "caption": "Absolutely love this bag, the colour is perfect",
+    "rating": 5,
+    "product_id": null,
+    "photo_url": "/static/stylewall/afaa46d4ebf0.jpg",
+    "cv_tag": {
+      "category": "makeup",
+      "confidence": 0.7292
+    },
+    "sentiment": {
+      "sentiment": "negative",
+      "confidence": 0.3718
+    },
+    "timestamp": "2026-09-12T15:04:03.871770+00:00",
+    "cheers": [],
+    "comments": []
+  },
+  {
+    "id": "2bd0626d70",
+    "customer": "pytest-cheerer",
+    "caption": "Cute shoes, slightly snug",
+    "rating": 4,
+    "product_id": null,
+    "photo_url": "/static/stylewall/8285d4988ada.jpg",
+    "cv_tag": {
+      "category": "makeup",
+      "confidence": 0.7476
+    },
+    "sentiment": {
+      "sentiment": "negative",
+      "confidence": 0.3718
+    },
+    "timestamp": "2026-09-12T15:04:04.018287+00:00",
+    "cheers": [],
+    "comments": [
+      {
+        "id": "47d08606",
+        "customer": "another-shopper",
+        "text": "Where did you find this? Looks lovely.",
+        "timestamp": "2026-09-12T15:04:04.064930+00:00"
+      }
+    ]
+  },
+  {
+    "id": "6e05966c5b",
+    "customer": "pytest-tagger",
+    "caption": "my new bag",
+    "rating": 5,
+    "product_id": null,
+    "photo_url": "/static/stylewall/5f4a934c37f8.jpg",
+    "cv_tag": {
+      "category": "bags",
+      "confidence": 0.91
+    },
+    "sentiment": {
+      "sentiment": "positive",
+      "confidence": 0.4071
+    },
+    "timestamp": "2026-09-12T15:04:04.442274+00:00",
+    "cheers": [],
+    "comments": []
+  }
+]

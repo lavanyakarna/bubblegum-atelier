@@ -110,6 +110,9 @@
 {"ts": "2026-09-11T14:04:44.427846+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "acc-002", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-11T14:04:44.444688+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "makeup-001", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-11T14:04:44.445614+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "makeup-002", "meta": {"context": "shop_grid"}}
+{"ts": "2026-09-11T14:10:52.146701+00:00", "customer_id": "pytest-b275a706-0f77-487e-8fc5-ce17d1edf0ec", "type": "cart_add", "product_id": "shoe-001", "meta": {"qty": 2}}
+{"ts": "2026-09-11T14:10:52.164076+00:00", "customer_id": "pytest-b275a706-0f77-487e-8fc5-ce17d1edf0ec", "type": "cart_update", "product_id": "shoe-001", "meta": {"qty": 1}}
+{"ts": "2026-09-11T14:10:52.181580+00:00", "customer_id": "pytest-b275a706-0f77-487e-8fc5-ce17d1edf0ec", "type": "checkout_intent", "product_id": null, "meta": {"item_count": 1, "total": 2499.0}}
 {"ts": "2026-09-11T14:17:48.129517+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "shoe-001", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-11T14:17:48.132335+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "bag-001", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-11T14:17:48.133209+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "shoe-002", "meta": {"context": "shop_grid"}}
@@ -204,6 +207,12 @@
 {"ts": "2026-09-11T16:11:34.167608+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "acc-002", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-11T16:11:34.180751+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "makeup-002", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-11T16:11:34.180825+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "makeup-001", "meta": {"context": "shop_grid"}}
+{"ts": "2026-09-11T16:51:45.716733+00:00", "customer_id": "pytest-ba7ba992-2b82-4a61-ac9e-3fd7710e551a", "type": "cart_add", "product_id": "shoe-001", "meta": {"qty": 2}}
+{"ts": "2026-09-11T16:51:45.733568+00:00", "customer_id": "pytest-ba7ba992-2b82-4a61-ac9e-3fd7710e551a", "type": "cart_update", "product_id": "shoe-001", "meta": {"qty": 1}}
+{"ts": "2026-09-11T16:51:45.745582+00:00", "customer_id": "pytest-ba7ba992-2b82-4a61-ac9e-3fd7710e551a", "type": "checkout_intent", "product_id": null, "meta": {"item_count": 1, "total": 2499.0}}
+{"ts": "2026-09-11T16:55:04.083217+00:00", "customer_id": "pytest-58a3e30f-1af3-4ea8-88a8-43fd086115c3", "type": "cart_add", "product_id": "shoe-001", "meta": {"qty": 2}}
+{"ts": "2026-09-11T16:55:04.102022+00:00", "customer_id": "pytest-58a3e30f-1af3-4ea8-88a8-43fd086115c3", "type": "cart_update", "product_id": "shoe-001", "meta": {"qty": 1}}
+{"ts": "2026-09-11T16:55:04.116898+00:00", "customer_id": "pytest-58a3e30f-1af3-4ea8-88a8-43fd086115c3", "type": "checkout_intent", "product_id": null, "meta": {"item_count": 1, "total": 2499.0}}
 {"ts": "2026-09-11T17:00:53.049022+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "shoe-001", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-11T17:00:53.052517+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "shoe-002", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-11T17:00:53.053154+00:00", "customer_id": "cust-345rm27ju1amtwyxa6g", "type": "view", "product_id": "bag-001", "meta": {"context": "shop_grid"}}
@@ -1842,6 +1851,12 @@
 {"ts": "2026-09-11T21:40:20.650049+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-008", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-11T21:40:20.651143+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-009", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-11T21:40:20.653890+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-010", "meta": {"context": "shop_grid"}}
+{"ts": "2026-09-12T07:09:40.526517+00:00", "customer_id": "pytest-870ce56d-06be-4544-a30e-e7d1eff6b8eb", "type": "cart_add", "product_id": "shoe-001", "meta": {"qty": 2}}
+{"ts": "2026-09-12T07:09:40.563517+00:00", "customer_id": "pytest-870ce56d-06be-4544-a30e-e7d1eff6b8eb", "type": "cart_update", "product_id": "shoe-001", "meta": {"qty": 1}}
+{"ts": "2026-09-12T07:09:40.595485+00:00", "customer_id": "pytest-870ce56d-06be-4544-a30e-e7d1eff6b8eb", "type": "checkout_intent", "product_id": null, "meta": {"item_count": 1, "total": 2499.0}}
+{"ts": "2026-09-12T09:29:21.895441+00:00", "customer_id": "pytest-1ee6b2a8-0b3c-4afb-b3ba-84c16fb167c3", "type": "cart_add", "product_id": "shoe-001", "meta": {"qty": 2}}
+{"ts": "2026-09-12T09:29:21.913903+00:00", "customer_id": "pytest-1ee6b2a8-0b3c-4afb-b3ba-84c16fb167c3", "type": "cart_update", "product_id": "shoe-001", "meta": {"qty": 1}}
+{"ts": "2026-09-12T09:29:21.930643+00:00", "customer_id": "pytest-1ee6b2a8-0b3c-4afb-b3ba-84c16fb167c3", "type": "checkout_intent", "product_id": null, "meta": {"item_count": 1, "total": 2499.0}}
 {"ts": "2026-09-12T09:40:16.472093+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-001", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-12T09:40:16.472833+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-002", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-12T09:40:16.477264+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-001", "meta": {"context": "shop_grid"}}
@@ -2021,6 +2036,28 @@
 {"ts": "2026-09-12T09:48:04.812663+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "wall_cheer", "product_id": null, "meta": {}}
 {"ts": "2026-09-12T09:48:15.634140+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "wall_comment", "product_id": null, "meta": {}}
 {"ts": "2026-09-12T15:03:46.696675+00:00", "customer_id": "anonymous", "type": "chat", "product_id": null, "meta": {"intent": "store_hours", "method": "rule"}}
+{"ts": "2026-09-12T15:03:46.763085+00:00", "customer_id": "pytest-07c9d9b6-ebc1-48dc-b117-03f9fcb04148", "type": "cart_add", "product_id": "shoe-001", "meta": {"qty": 2}}
+{"ts": "2026-09-12T15:03:46.783790+00:00", "customer_id": "pytest-07c9d9b6-ebc1-48dc-b117-03f9fcb04148", "type": "cart_update", "product_id": "shoe-001", "meta": {"qty": 1}}
+{"ts": "2026-09-12T15:03:46.802561+00:00", "customer_id": "pytest-07c9d9b6-ebc1-48dc-b117-03f9fcb04148", "type": "checkout_intent", "product_id": null, "meta": {"item_count": 1, "total": 2499.0}}
+{"ts": "2026-09-12T15:04:03.885092+00:00", "customer_id": "pytest-wall", "type": "classify", "product_id": null, "meta": {"category": "makeup", "confidence": 0.7292, "source": "style_wall"}}
+{"ts": "2026-09-12T15:04:04.021639+00:00", "customer_id": "pytest-cheerer", "type": "classify", "product_id": null, "meta": {"category": "makeup", "confidence": 0.7476, "source": "style_wall"}}
+{"ts": "2026-09-12T15:04:04.164465+00:00", "customer_id": "pytest-insights", "type": "view", "product_id": "shoe-001", "meta": {"context": "pytest"}}
+{"ts": "2026-09-12T15:04:04.171097+00:00", "customer_id": "pytest-insights", "type": "view", "product_id": "shoe-001", "meta": {"context": "pytest"}}
+{"ts": "2026-09-12T15:04:04.177625+00:00", "customer_id": "pytest-insights", "type": "view", "product_id": "shoe-001", "meta": {"context": "pytest"}}
+{"ts": "2026-09-12T15:04:04.184870+00:00", "customer_id": "pytest-insights", "type": "cart_add", "product_id": "shoe-001", "meta": {"qty": 1}}
+{"ts": "2026-09-12T15:04:04.242383+00:00", "customer_id": "pytest-insights", "type": "view", "product_id": "shoe-001", "meta": {"context": "pytest"}}
+{"ts": "2026-09-12T15:04:04.249259+00:00", "customer_id": "pytest-insights", "type": "view", "product_id": "shoe-001", "meta": {"context": "pytest"}}
+{"ts": "2026-09-12T15:04:04.255822+00:00", "customer_id": "pytest-insights", "type": "view", "product_id": "shoe-001", "meta": {"context": "pytest"}}
+{"ts": "2026-09-12T15:04:04.262861+00:00", "customer_id": "pytest-insights", "type": "cart_add", "product_id": "shoe-001", "meta": {"qty": 1}}
+{"ts": "2026-09-12T15:04:04.307516+00:00", "customer_id": "pytest-insights", "type": "view", "product_id": "shoe-001", "meta": {"context": "pytest"}}
+{"ts": "2026-09-12T15:04:04.314043+00:00", "customer_id": "pytest-insights", "type": "view", "product_id": "shoe-001", "meta": {"context": "pytest"}}
+{"ts": "2026-09-12T15:04:04.321726+00:00", "customer_id": "pytest-insights", "type": "view", "product_id": "shoe-001", "meta": {"context": "pytest"}}
+{"ts": "2026-09-12T15:04:04.328769+00:00", "customer_id": "pytest-insights", "type": "cart_add", "product_id": "shoe-001", "meta": {"qty": 1}}
+{"ts": "2026-09-12T15:04:04.373616+00:00", "customer_id": "pytest-chatter", "type": "chat", "product_id": null, "meta": {"intent": "store_hours", "method": "rule"}}
+{"ts": "2026-09-12T15:04:04.445978+00:00", "customer_id": "pytest-tagger", "type": "classify", "product_id": null, "meta": {"category": "bags", "confidence": 0.91, "source": "style_wall"}}
+{"ts": "2026-09-12T15:04:04.498222+00:00", "customer_id": "pytest-fan-db7486", "type": "look_like", "product_id": null, "meta": {"look_id": "look-2", "liked": true}}
+{"ts": "2026-09-12T15:04:04.515068+00:00", "customer_id": "pytest-fan-db7486", "type": "look_like", "product_id": null, "meta": {"look_id": "look-2", "liked": false}}
+{"ts": "2026-09-12T15:04:04.530689+00:00", "customer_id": "pytest-other-b767d1", "type": "look_like", "product_id": null, "meta": {"look_id": "look-2", "liked": true}}
 {"ts": "2026-09-12T15:12:31.259810+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-001", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-12T15:12:31.260398+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-002", "meta": {"context": "shop_grid"}}
 {"ts": "2026-09-12T15:12:31.263650+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-001", "meta": {"context": "shop_grid"}}
@@ -2111,94 +2148,3 @@
 {"ts": "2026-09-12T15:12:44.608115+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": null, "meta": {"context": "lookbook"}}
 {"ts": "2026-09-12T15:12:47.883533+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "look_like", "product_id": null, "meta": {"look_id": "look-1", "liked": true}}
 {"ts": "2026-09-12T15:12:47.889094+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "look_like", "product_id": null, "meta": {"look_id": "look-1", "liked": true}}
-{"ts": "2026-09-12T15:34:10.998516+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-001", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:10.999261+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-001", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:10.999313+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-002", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:10.999768+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-001", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.000627+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-002", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.001282+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-001", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.008019+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-002", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.009200+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-001", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.010061+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-002", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.013832+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-002", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.015255+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-003", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.016675+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-004", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.020250+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-005", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.021199+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-006", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.023438+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-007", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.029452+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-008", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.029944+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-009", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.030703+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-010", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.034753+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-011", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.035432+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-012", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.036830+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "shoe-013", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.041823+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-003", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.042300+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-004", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.043753+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-005", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.045462+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-006", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.049308+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-007", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.050082+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-008", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.051002+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-009", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.052568+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-010", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.054672+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-011", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.058640+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-012", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.059265+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bag-013", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.060339+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-003", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.061154+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-004", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.064921+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-005", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.065982+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-006", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.068692+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-007", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.073330+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-008", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.075584+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-009", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.076904+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-010", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.078434+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-011", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.079830+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-012", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.082313+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "cloth-013", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.085076+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-003", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.086493+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-004", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.088672+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-005", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.090434+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-006", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.103158+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-007", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.105198+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-008", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.106205+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-009", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.108768+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-010", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.110845+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-011", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.110918+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "acc-012", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.118864+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-005", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.118931+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-004", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.119051+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-003", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.123653+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-006", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.124297+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-007", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.129696+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-008", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.131450+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-009", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.131950+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-010", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.136353+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-011", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.138787+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "makeup-012", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.141865+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "top-001", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.146689+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "top-002", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.148712+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "top-003", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.151172+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "top-004", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.153436+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "top-005", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.156165+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "top-006", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.158239+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bottom-001", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.159583+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bottom-002", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.164052+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bottom-003", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.165341+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bottom-004", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.165772+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bottom-005", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.168230+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bottom-006", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.171852+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bottom-007", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.175888+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "bottom-008", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.180983+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-001", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.183633+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-002", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.186566+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-003", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.187135+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-004", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.188663+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-005", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.190978+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-006", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.197027+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-007", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.197402+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-008", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.200601+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-009", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:11.201896+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "view", "product_id": "dress-010", "meta": {"context": "shop_grid"}}
-{"ts": "2026-09-12T15:34:29.658170+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "chat", "product_id": null, "meta": {"intent": "shipping_cost", "method": "rule"}}
-{"ts": "2026-09-12T15:34:46.742035+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "chat", "product_id": null, "meta": {"intent": "category_lookup", "method": "catalogue"}}
-{"ts": "2026-09-12T15:34:58.879733+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "chat", "product_id": null, "meta": {"intent": "product_lookup", "method": "catalogue"}}
-{"ts": "2026-09-12T15:35:09.817718+00:00", "customer_id": "guest-n2ghbmdl4u9mtx88x8u", "type": "chat", "product_id": null, "meta": {"intent": "unknown", "method": "fallback"}}

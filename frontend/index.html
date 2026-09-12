@@ -212,6 +212,10 @@ const api = {
   favGet: () => apiRequest(`/favorites/${getCustomerId()}`, { method: "GET" }),
   favAdd: (productId) => apiRequest("/favorites", { method: "POST", body: JSON.stringify({ customer: getCustomerId(), product_id: productId }) }),
   favRemove: (productId) => apiRequest("/favorites", { method: "DELETE", body: JSON.stringify({ customer: getCustomerId(), product_id: productId }) }),
+  insights: () => apiRequest("/insights", { method: "GET" }),
+  insightDetail: (kind) => apiRequest(`/insights/${kind}`, { method: "GET" }),
+  lookbookLikes: (customer) => apiRequest(`/lookbook/likes?customer=${encodeURIComponent(customer)}`, { method: "GET" }),
+  lookbookLike: (lookId, customer) => apiRequest(`/lookbook/${lookId}/like`, { method: "POST", body: JSON.stringify({ customer }) }),
   stylewallList: (customer) => apiRequest(`/stylewall/posts${customer ? `?customer=${encodeURIComponent(customer)}` : ""}`, { method: "GET" }),
   stylewallCreate: ({ photo, rating, caption, customer, productId }) => {
     const fd = new FormData();
@@ -397,7 +401,7 @@ function WelcomeScreen({ onEnter }) {
           <Icon name="sparkle" size={14} style={{ color: "var(--pink)" }} />
           <span style={{ fontSize: 12.5, fontWeight: 600, color: "var(--pink-dark)", letterSpacing: 0.3 }}>AI-Powered Boutique</span>
         </div>
-        <img src={API_CONFIG.baseUrl + "/static/graphics/welcome-hero.png"} alt="Bubblegum Atelier boutique" style={{ width: "min(320px, 78%)", borderRadius: 22, margin: "0 auto 26px", display: "block", boxShadow: "var(--shadow)" }} />
+        <img src={API_CONFIG.baseUrl + "/static/graphics/welcome-hero.jpg"} alt="Bubblegum Atelier boutique" style={{ width: "min(320px, 78%)", borderRadius: 22, margin: "0 auto 26px", display: "block", boxShadow: "var(--shadow)" }} />
         <h1 style={{ fontSize: "clamp(38px, 7vw, 64px)", lineHeight: 1.08, marginBottom: 14, letterSpacing: -0.5 }}>Bubblegum Atelier</h1>
         <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: "clamp(17px, 2.4vw, 21px)", color: "var(--pink-dark)", marginBottom: 16 }}>Where Style Meets Intelligence</p>
         <p style={{ color: "var(--text-soft)", fontSize: 15.5, lineHeight: 1.6, maxWidth: 480, margin: "0 auto 34px" }}>
@@ -583,6 +587,8 @@ function FunnelCard() {
 function OverviewPage({ session }) {
   const [state, setState] = useState({ loading: true, error: null, data: null });
   const [reviewMood, setReviewMood] = useState(null);
+  const [insights, setInsights] = useState(null);
+  const [drill, setDrill] = useState(null);
 
   const load = useCallback(() => {
     setState({ loading: true, error: null, data: null });
@@ -603,6 +609,9 @@ function OverviewPage({ session }) {
       }
     });
   }, []);
+  useEffect(() => {
+    api.insights().then((res) => { if (res.ok) setInsights(res.data); });
+  }, []);
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
@@ -618,12 +627,13 @@ function OverviewPage({ session }) {
     hasSentiment = segments.some(s => s.value > 0);
   }
 
-  const insightCards = [
-    "Lipstick reviews are trending positive this week.",
-    "Bags remain the most-photographed category in the studio.",
-    "Guests recognized at the door tend to browse accessories first.",
-    "Playful, story-driven captions get the warmest customer replies.",
-  ];
+  const totals = (insights && insights.totals) || {
+    visits: state.data ? state.data.total_visits : 0,
+    customers: state.data ? state.data.unique_customers : 0,
+    tagged: session.classifyCount,
+    chats: session.chatCount,
+  };
+  const insightCards = (insights && insights.insights) || [];
 
   return (
     <div>
@@ -641,10 +651,12 @@ function OverviewPage({ session }) {
         <>
           <FunnelCard />
           <div className="grid-3 fade-up" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 22 }}>
-            <StatCard icon="bag" label="Total Visits" value={state.data.total_visits || 0} bg="var(--pink-soft)" />
-            <StatCard icon="user" label="Unique Customers" value={state.data.unique_customers || 0} bg="var(--mint)" />
-            <StatCard icon="photo" label="Products Tagged" value={session.classifyCount} bg="var(--lavender)" note="This session" />
-            <StatCard icon="chat" label="Concierge Chats" value={session.chatCount} bg="var(--cream)" note="This session" />
+          <div className="grid-3 fade-up" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 22 }}>
+            <StatCard icon="bag" label="Total Visits" value={totals.visits} bg="var(--pink-soft)" onClick={() => setDrill("visits")} />
+            <StatCard icon="user" label="Unique Customers" value={totals.customers} bg="var(--mint)" onClick={() => setDrill("customers")} />
+            <StatCard icon="photo" label="Products Tagged" value={totals.tagged} bg="var(--lavender)" onClick={() => setDrill("tagged")} note="all time" />
+            <StatCard icon="chat" label="Concierge Chats" value={totals.chats} bg="var(--cream)" onClick={() => setDrill("chats")} note="all time" />
+          </div>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 18 }} className="two-col">
@@ -676,12 +688,18 @@ function OverviewPage({ session }) {
                 <Icon name="sparkle" size={17} style={{ color: "var(--pink)" }} />
                 <h3 style={{ fontSize: 16.5 }}>AI Insights</h3>
               </div>
-              <p style={{ fontSize: 12, color: "var(--text-soft)", marginBottom: 14 }}>Illustrative observations - a preview of what deeper analysis could surface.</p>
+              <p style={{ fontSize: 12, color: "var(--text-soft)", marginBottom: 14 }}>
+                Computed from {insights ? insights.events_considered : 0} recorded actions in your boutique, refreshed every time this page loads.
+              </p>
+              {!insights && <p style={{ fontSize: 13, color: "var(--text-soft)" }}>Reading your data...</p>}
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {insightCards.map((t, i) => (
+                {insightCards.map((card, i) => (
                   <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", padding: "12px 14px", background: "var(--cream)", borderRadius: 14 }}>
-                    <Icon name="star" size={14} style={{ color: "var(--pink)", marginTop: 2, flexShrink: 0 }} />
-                    <p style={{ fontSize: 13, lineHeight: 1.5 }}>{t}</p>
+                    <Icon name={card.icon || "star"} size={14} style={{ color: "var(--pink)", marginTop: 2, flexShrink: 0 }} />
+                    <div>
+                      <p style={{ fontSize: 13, fontWeight: 700, lineHeight: 1.45 }}>{card.title}</p>
+                      <p style={{ fontSize: 12.5, color: "var(--text-soft)", lineHeight: 1.5 }}>{card.text}</p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -689,15 +707,24 @@ function OverviewPage({ session }) {
           </div>
         </>
       )}
+
+      {drill && <StatDetailModal kind={drill} onClose={() => setDrill(null)} />}
     </div>
   );
 }
 
-function StatCard({ icon, label, value, bg, note }) {
+function StatCard({ icon, label, value, bg, note, onClick }) {
   return (
-    <div className="card" style={{ padding: "20px 20px" }}>
-      <div style={{ width: 38, height: 38, borderRadius: "50%", background: bg, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--pink-dark)", marginBottom: 14 }}>
-        <Icon name={icon} size={17} />
+    <div className="card" onClick={onClick}
+         title={onClick ? "Open the real numbers" : undefined}
+         style={{ padding: "20px 20px", cursor: onClick ? "pointer" : "default", transition: "transform 0.18s ease, box-shadow 0.18s ease" }}
+         onMouseEnter={(e) => { if (onClick) { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "var(--shadow-lift)"; } }}
+         onMouseLeave={(e) => { if (onClick) { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "var(--shadow)"; } }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div style={{ width: 38, height: 38, borderRadius: "50%", background: bg, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--pink-dark)", marginBottom: 14 }}>
+          <Icon name={icon} size={17} />
+        </div>
+        {onClick && <span style={{ color: "var(--text-soft)", opacity: 0.65, marginTop: 8 }}><Icon name="chevron" size={15} /></span>}
       </div>
       <p style={{ fontSize: 26, fontFamily: "'Playfair Display', serif", fontWeight: 700 }}><StatNumber value={value} /></p>
       <p style={{ fontSize: 12.5, color: "var(--text-soft)", fontWeight: 500 }}>{label}{note && <span style={{ marginLeft: 6, fontSize: 10.5, color: "var(--pink-dark)", background: "var(--pink-soft)", padding: "2px 7px", borderRadius: 999 }}>{note}</span>}</p>
@@ -1363,7 +1390,7 @@ function ForYouPage({ cart, setCart, wishlist, setWishlist }) {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 18 }}>
             {picks.map((p) => (
               <div key={p.id} className="card fade-up" style={{ padding: 18, position: "relative" }}>
-                <img onClick={() => setOpenId(p.id)} src={API_CONFIG.baseUrl + p.image} alt={p.name} title="Click to see it up close" style={{ width: "100%", height: 165, objectFit: "cover", borderRadius: 14, marginBottom: 10, background: "var(--pink-soft)", cursor: "pointer" }} />
+                <img loading="lazy" decoding="async" onClick={() => setOpenId(p.id)} src={API_CONFIG.baseUrl + p.image} alt={p.name} title="Click to see it up close" style={{ width: "100%", height: 165, objectFit: "cover", borderRadius: 14, marginBottom: 10, background: "var(--pink-soft)", cursor: "pointer" }} />
                 <button onClick={(e) => { e.stopPropagation(); toggleFav(p); }} title="Save to wishlist" style={{ position: "absolute", top: 26, right: 26, width: 32, height: 32, borderRadius: "50%", border: wishlist.includes(p.id) ? "1px solid #FF1E3C" : "1px solid var(--border)", background: wishlist.includes(p.id) ? "#FFF0F2" : "#fff", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: wishlist.includes(p.id) ? "#FF1E2C" : "var(--text-soft)", boxShadow: wishlist.includes(p.id) ? "0 2px 10px rgba(255,30,60,0.35)" : "0 2px 8px rgba(0,0,0,0.08)", transform: wishlist.includes(p.id) ? "scale(1.08)" : "scale(1)", transition: "all 0.15s ease" }}>
                   <Icon name="heart" size={16} fill={wishlist.includes(p.id) ? "#FF1E2C" : "none"} />
                 </button>
@@ -1635,7 +1662,7 @@ function ShopPage({ cart, setCart, wishlist, setWishlist }) {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 18 }}>
             {shown.map((p) => (
               <div key={p.id} className="card fade-up" style={{ padding: 18, position: "relative" }}>
-                <img onClick={() => setOpenId(p.id)} src={API_CONFIG.baseUrl + p.image} alt={p.name} title="Click to see it up close" style={{ width: "100%", height: 170, objectFit: "cover", borderRadius: 14, marginBottom: 12, background: "var(--pink-soft)", cursor: "pointer" }} />
+                <img loading="lazy" decoding="async" onClick={() => setOpenId(p.id)} src={API_CONFIG.baseUrl + p.image} alt={p.name} title="Click to see it up close" style={{ width: "100%", height: 170, objectFit: "cover", borderRadius: 14, marginBottom: 12, background: "var(--pink-soft)", cursor: "pointer" }} />
                 <button onClick={(e) => { e.stopPropagation(); toggleFav(p); }} title="Save to wishlist" style={{ position: "absolute", top: 26, right: 26, width: 32, height: 32, borderRadius: "50%", border: wishlist.includes(p.id) ? "1px solid #FF1E3C" : "1px solid var(--border)", background: wishlist.includes(p.id) ? "#FFF0F2" : "#fff", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: wishlist.includes(p.id) ? "#FF1E2C" : "var(--text-soft)", boxShadow: wishlist.includes(p.id) ? "0 2px 10px rgba(255,30,60,0.35)" : "0 2px 8px rgba(0,0,0,0.08)", transform: wishlist.includes(p.id) ? "scale(1.08)" : "scale(1)", transition: "all 0.15s ease" }}>
                   <Icon name="heart" size={16} fill={wishlist.includes(p.id) ? "#FF1E2C" : "none"} />
                 </button>
@@ -1716,7 +1743,7 @@ function CartPage({ cart, setCart }) {
       <div className="card fade-up" style={{ padding: 26, maxWidth: 560 }}>
         {cart.length === 0 ? (
           <div style={{ textAlign: "center", padding: "10px 0 6px" }}>
-              <img src={API_CONFIG.baseUrl + "/static/graphics/empty-bag.png"} alt="" style={{ width: 170, borderRadius: 16, marginBottom: 12 }} />
+              <img src={API_CONFIG.baseUrl + "/static/graphics/empty-bag.jpg"} alt="" style={{ width: 170, borderRadius: 16, marginBottom: 12 }} />
               <p style={{ fontWeight: 700, marginBottom: 6 }}>Your bag is empty</p>
               <p style={{ fontSize: 13.5, color: "var(--text-soft)" }}>Go find something cute in the Shop.</p>
             </div>
@@ -1793,7 +1820,7 @@ function WishlistPage({ cart, setCart, wishlist, setWishlist }) {
       {state.error && <ErrorState message={state.error} onRetry={load} />}
       {!state.loading && !state.error && state.products.length === 0 && (
         <div className="card fade-up" style={{ padding: 34, maxWidth: 480, textAlign: "center" }}>
-          <img src={API_CONFIG.baseUrl + "/static/graphics/empty-wishlist.png"} alt="" style={{ width: 180, borderRadius: 16, marginBottom: 14 }} />
+          <img src={API_CONFIG.baseUrl + "/static/graphics/empty-wishlist.jpg"} alt="" style={{ width: 180, borderRadius: 16, marginBottom: 14 }} />
           <p style={{ fontWeight: 700, marginBottom: 6 }}>Nothing saved yet</p>
           <p style={{ fontSize: 13.5, color: "var(--text-soft)" }}>Tap the little heart on anything you love in the Shop, and it waits for you here.</p>
         </div>
@@ -1802,7 +1829,7 @@ function WishlistPage({ cart, setCart, wishlist, setWishlist }) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 18 }}>
           {state.products.map((p) => (
             <div key={p.id} className="card fade-up" style={{ padding: 18 }}>
-              <img src={API_CONFIG.baseUrl + p.image} alt={p.name} style={{ width: "100%", height: 170, objectFit: "cover", borderRadius: 14, marginBottom: 12, background: "var(--pink-soft)" }} />
+              <img loading="lazy" decoding="async" src={API_CONFIG.baseUrl + p.image} alt={p.name} style={{ width: "100%", height: 170, objectFit: "cover", borderRadius: 14, marginBottom: 12, background: "var(--pink-soft)" }} />
               <p style={{ fontWeight: 700, fontSize: 14.5, marginBottom: 4 }}>{p.name}</p>
               <p style={{ fontWeight: 700, marginBottom: 10 }}>{"₹"}{p.price}</p>
               <button className="btn btn-sm" onClick={() => moveToBag(p)} style={{ width: "100%", marginBottom: 8 }}>{movedId === p.id ? "Moved to Bag!" : "Move to Bag"}</button>
@@ -1853,6 +1880,23 @@ const LOOKS = [
 function LookbookPage({ cart, setCart }) {
   const [products, setProducts] = useState([]);
   const [addedLook, setAddedLook] = useState(null);
+  const [likes, setLikes] = useState({});
+
+  useEffect(() => {
+    api.lookbookLikes(getCustomerId()).then((res) => { if (res.ok) setLikes(res.data.looks || {}); });
+  }, []);
+
+  function liked(lookId) { return Boolean(likes[lookId] && likes[lookId].liked); }
+
+  function likeCount(lookId) { return (likes[lookId] && likes[lookId].count) || 0; }
+
+  function toggleLike(look) {
+    api.lookbookLike(look.id, getCustomerId()).then((res) => {
+      if (!res.ok) return;
+      setLikes((prev) => ({ ...prev, [look.id]: { count: res.data.like_count, liked: res.data.liked } }));
+      logEvent("look_like", null, { look_id: look.id, liked: res.data.liked });
+    });
+  }
 
   useEffect(() => {
     logEvent("view", null, { context: "lookbook" });
@@ -1881,7 +1925,7 @@ function LookbookPage({ cart, setCart }) {
     <div>
       <PageHeader icon="flower" title="Lookbook" subtitle="Complete fits from the boutique, styled head to toe." />
       <div className="card fade-up" style={{ padding: 0, overflow: "hidden", marginBottom: 22 }}>
-        <img src={API_CONFIG.baseUrl + "/static/graphics/lookbook-banner.png"} alt="Boutique looks" style={{ width: "100%", maxHeight: 260, objectFit: "cover", display: "block" }} />
+        <img src={API_CONFIG.baseUrl + "/static/graphics/lookbook-banner.jpg"} alt="Boutique looks" style={{ width: "100%", maxHeight: 260, objectFit: "cover", display: "block" }} />
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 20 }}>
         {LOOKS.map((look) => {
@@ -1894,16 +1938,26 @@ function LookbookPage({ cart, setCart }) {
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 14 }}>
                 {items.map((p) => (
                   <div key={p.id} style={{ width: 84, textAlign: "center" }}>
-                    <img src={API_CONFIG.baseUrl + p.image} alt={p.name} style={{ width: 84, height: 84, objectFit: "cover", borderRadius: 12, background: "var(--pink-soft)" }} />
+                    <img loading="lazy" decoding="async" src={API_CONFIG.baseUrl + p.image} alt={p.name} style={{ width: 84, height: 84, objectFit: "cover", borderRadius: 12, background: "var(--pink-soft)" }} />
                     <p style={{ fontSize: 10.5, color: "var(--text-soft)", marginTop: 4, lineHeight: 1.3 }}>{p.name}</p>
                   </div>
                 ))}
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
                 <p style={{ fontWeight: 700 }}>Full look: ₹{total}</p>
-                <button className="btn btn-sm" onClick={() => addLook(look)} style={{ minWidth: 150 }}>
-                  {addedLook === look.id ? "Added to your bag!" : "Add whole look"}
-                </button>
+                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                  <button className="btn btn-ghost btn-sm" onClick={() => toggleLike(look)}
+                          title={liked(look.id) ? "Take back your like" : "Like this look"}
+                          aria-label="Like this look"
+                          style={{ padding: "9px 15px", background: liked(look.id) ? "var(--pink-soft)" : "#fff" }}>
+                    <Icon name="heart" size={14} fill={liked(look.id) ? "var(--pink-dark)" : "none"}
+                          style={{ color: liked(look.id) ? "var(--pink-dark)" : "currentColor" }} />
+                    {likeCount(look.id)}
+                  </button>
+                  <button className="btn btn-sm" onClick={() => addLook(look)} style={{ minWidth: 150 }}>
+                    {addedLook === look.id ? "Added to your bag!" : "Add whole look"}
+                  </button>
+                </div>
               </div>
             </div>
           );
@@ -2322,6 +2376,233 @@ function StyleWallPage({ profile }) {
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+
+/* =======================================================================
+   OWNER: DRILL-DOWN PANEL — the real numbers behind each stat card
+======================================================================= */
+const DETAIL_META = {
+  visits:    { icon: "bag",   title: "Visit activity",  subtitle: "What shoppers looked at, and when." },
+  customers: { icon: "user",  title: "Customers",       subtitle: "Anonymous guest ids browsing your boutique." },
+  tagged:    { icon: "photo", title: "Products tagged", subtitle: "Every photo the vision model has read." },
+  chats:     { icon: "chat",  title: "Concierge chats", subtitle: "What shoppers asked your concierge." },
+};
+
+function MiniBar({ value, max, color = "var(--pink)" }) {
+  const pct = max > 0 ? Math.max(3, Math.round((value / max) * 100)) : 3;
+  return (
+    <div style={{ height: 8, borderRadius: 999, background: "var(--pink-soft)", overflow: "hidden" }}>
+      <div style={{ width: pct + "%", height: "100%", borderRadius: 999, background: color, transition: "width 0.4s ease" }} />
+    </div>
+  );
+}
+
+function Row({ left, right, sub }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: "1px solid var(--border)" }}>
+      <div style={{ minWidth: 0 }}>
+        <p style={{ fontSize: 13.5, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{left}</p>
+        {sub && <p style={{ fontSize: 11.5, color: "var(--text-soft)" }}>{sub}</p>}
+      </div>
+      <span style={{ fontSize: 13, fontWeight: 700, whiteSpace: "nowrap" }}>{right}</span>
+    </div>
+  );
+}
+
+function StatDetailBody({ kind, data }) {
+  if (kind === "visits") {
+    const maxDay = Math.max(1, ...data.days.map((d) => d.count));
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999, background: "var(--pink-soft)", color: "var(--pink-dark)" }}>{data.total} product views</span>
+          <span style={{ fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999, background: "var(--mint)", color: "#22996F" }}>{data.last_24h} in the last 24h</span>
+        </div>
+
+        <div>
+          <p style={{ fontSize: 12.5, fontWeight: 700, marginBottom: 10, color: "var(--text-soft)" }}>LAST 7 DAYS</p>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 92 }}>
+            {data.days.map((d) => (
+              <div key={d.date} style={{ flex: 1, textAlign: "center" }}>
+                <div style={{ height: Math.max(6, Math.round((d.count / maxDay) * 70)), background: "var(--pink)", borderRadius: 8, marginBottom: 6, transition: "height 0.4s ease" }} />
+                <p style={{ fontSize: 10.5, color: "var(--text-soft)" }}>{d.label}</p>
+                <p style={{ fontSize: 10, color: "var(--text-soft)" }}>{d.count}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {data.top_categories.length > 0 && (
+          <div>
+            <p style={{ fontSize: 12.5, fontWeight: 700, marginBottom: 10, color: "var(--text-soft)" }}>BROWSED BY CATEGORY</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              {data.top_categories.map((c) => (
+                <div key={c.category} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ width: 96, fontSize: 12.5, textTransform: "capitalize" }}>{c.category}</span>
+                  <div style={{ flex: 1 }}><MiniBar value={c.views} max={data.top_categories[0].views} /></div>
+                  <span style={{ fontSize: 12, fontWeight: 700, width: 34, textAlign: "right" }}>{c.views}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {data.top_products.length > 0 && (
+          <div>
+            <p style={{ fontSize: 12.5, fontWeight: 700, marginBottom: 4, color: "var(--text-soft)" }}>MOST-VIEWED PIECES</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {data.top_products.map((p) => (
+                <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <img src={API_CONFIG.baseUrl + p.image} alt={p.name} loading="lazy" decoding="async"
+                       style={{ width: 42, height: 42, borderRadius: 10, objectFit: "cover", background: "var(--pink-soft)", flexShrink: 0 }} />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name}</p>
+                    <p style={{ fontSize: 11.5, color: "var(--text-soft)", textTransform: "capitalize" }}>{p.category} · ₹{p.price}</p>
+                  </div>
+                  <span style={{ fontSize: 13, fontWeight: 700 }}>{p.views}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (kind === "customers") {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999, background: "var(--mint)", color: "#22996F" }}>{data.total} people</span>
+          <span style={{ fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999, background: "var(--lavender)", color: "#8B7CE8" }}>{data.returning} came back</span>
+        </div>
+        <div>
+          {data.customers.map((c) => (
+            <Row key={c.id} left={c.label}
+                 sub={(c.last_seen ? "Last seen " + timeAgo(c.last_seen) : "No timestamp") + (c.returning ? " · returning" : "")}
+                 right={c.events + " actions"} />
+          ))}
+        </div>
+        <p style={{ fontSize: 11.5, color: "var(--text-soft)" }}>
+          Guest ids are generated on the shopper's own device - no names, no personal data stored here.
+        </p>
+      </div>
+    );
+  }
+
+  if (kind === "tagged") {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <span style={{ fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999, background: "var(--lavender)", color: "#8B7CE8", alignSelf: "flex-start" }}>
+          {data.total} photos read by the vision model
+        </span>
+
+        {data.by_category.length > 0 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+            {data.by_category.map((c) => (
+              <div key={c.category} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <span style={{ width: 96, fontSize: 12.5, textTransform: "capitalize" }}>{c.category}</span>
+                <div style={{ flex: 1 }}><MiniBar value={c.count} max={data.by_category[0].count} color="#8B7CE8" /></div>
+                <span style={{ fontSize: 12, fontWeight: 700, width: 34, textAlign: "right" }}>{c.count}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {data.recent.length === 0 && (
+          <p style={{ fontSize: 13, color: "var(--text-soft)" }}>
+            Nothing tagged yet. Every photo shared on the Style Wall is read by the model - the first one will show up here.
+          </p>
+        )}
+
+        {data.recent.length > 0 && (
+          <div>
+            <p style={{ fontSize: 12.5, fontWeight: 700, marginBottom: 6, color: "var(--text-soft)" }}>RECENT</p>
+            {data.recent.map((t, i) => (
+              <Row key={i}
+                   left={(t.category || "unknown") + (t.source === "style_wall" ? " · from the Style Wall" : "")}
+                   sub={t.ts ? timeAgo(t.ts) : ""}
+                   right={t.confidence != null ? Math.round(t.confidence * 100) + "% sure" : "—"} />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (kind === "chats") {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <span style={{ fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999, background: "var(--cream)", color: "var(--text)", alignSelf: "flex-start" }}>
+          {data.total} conversations with the concierge
+        </span>
+        {data.recent.length === 0 && (
+          <p style={{ fontSize: 13, color: "var(--text-soft)" }}>No chats yet - ask the concierge something and it will appear here.</p>
+        )}
+        {data.recent.map((c, i) => (
+          <div key={i} style={{ padding: "12px 14px", background: "var(--cream)", borderRadius: 14 }}>
+            <p style={{ fontSize: 13, fontWeight: 700 }}>{c.message}</p>
+            <p style={{ fontSize: 12.5, color: "var(--text-soft)", marginTop: 4 }}>{c.reply}</p>
+            <p style={{ fontSize: 10.5, color: "var(--text-soft)", marginTop: 6 }}>
+              {c.intent ? c.intent + " · " : ""}{c.ts ? timeAgo(c.ts) : ""}
+            </p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return <p style={{ fontSize: 13, color: "var(--text-soft)" }}>Nothing to show yet.</p>;
+}
+
+function StatDetailModal({ kind, onClose }) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [nonce, setNonce] = useState(0);
+
+  useEffect(() => {
+    if (!kind) return;
+    setLoading(true); setError(null); setData(null);
+    api.insightDetail(kind).then((res) => {
+      setLoading(false);
+      if (res.ok) setData(res.data);
+      else setError(res.message || "Could not load that.");
+    });
+  }, [kind, nonce]);
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === "Escape") onClose(); }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  if (!kind) return null;
+  const meta = DETAIL_META[kind] || { icon: "sparkle", title: "Details", subtitle: "" };
+
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(47,42,53,0.34)", zIndex: 90, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+      <div onClick={(e) => e.stopPropagation()} className="card fade-up" style={{ width: "min(620px, 100%)", maxHeight: "84vh", overflowY: "auto", padding: 26, background: "#fff" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 18 }}>
+          <div style={{ width: 42, height: 42, borderRadius: "50%", background: "var(--pink-soft)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--pink-dark)", flexShrink: 0 }}>
+            <Icon name={meta.icon} size={19} />
+          </div>
+          <div style={{ flex: 1 }}>
+            <h3 style={{ fontSize: 19 }}>{meta.title}</h3>
+            <p style={{ fontSize: 12.5, color: "var(--text-soft)" }}>{meta.subtitle}</p>
+          </div>
+          <button className="btn btn-ghost btn-sm" onClick={onClose} aria-label="Close" style={{ padding: "8px 12px" }}>
+            <Icon name="x" size={14} />
+          </button>
+        </div>
+
+        {loading && <LoadingState label="Reading the real data..." />}
+        {!loading && error && <ErrorState message={error} onRetry={() => setNonce((n) => n + 1)} />}
+        {!loading && !error && data && <StatDetailBody kind={kind} data={data} />}
+      </div>
     </div>
   );
 }

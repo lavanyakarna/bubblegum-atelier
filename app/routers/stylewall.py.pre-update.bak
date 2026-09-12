@@ -5,9 +5,6 @@ and comments on them. Two of the boutique's ML brains run on every post:
     photo   -> vision model tags the garment category   ("Recognized: bags")
     caption -> sentiment model reads the mood           ("Loved It")
 
-Every classification is also written to the event log, so the owner dashboard can
-show a real "Products Tagged" count instead of a session counter.
-
 Storage is deliberately simple and matches the rest of the project: metadata in
 one JSON file, photos as JPEGs on disk under data/stylewall/ (which main.py
 already serves at /static).
@@ -26,7 +23,6 @@ from pydantic import BaseModel
 
 from app.routers.nlp import get_sentiment_service
 from app.services.cv_service import ProductClassifierService
-from app.storage import append_event
 
 router = APIRouter(prefix="/stylewall", tags=["stylewall"])
 
@@ -182,8 +178,6 @@ async def create_post(
     if img is None:
         raise HTTPException(status_code=400, detail="That file didn't look like an image we can read.")
 
-    cv_tag = _read_category(img)
-
     post = {
         "id": uuid.uuid4().hex[:10],
         "customer": (customer or "").strip() or "A guest",
@@ -191,7 +185,7 @@ async def create_post(
         "rating": int(rating),
         "product_id": (product_id or "").strip() or None,
         "photo_url": _store_photo(img),
-        "cv_tag": cv_tag,
+        "cv_tag": _read_category(img),
         "sentiment": _read_mood(caption),
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "cheers": [],
@@ -201,20 +195,6 @@ async def create_post(
     posts = _load_posts()
     posts.append(post)
     _save_posts(posts)
-
-    # let the owner dashboard count every photo the vision model has read
-    if cv_tag:
-        append_event({
-            "customer_id": post["customer"],
-            "type": "classify",
-            "product_id": post["product_id"],
-            "meta": {
-                "category": cv_tag.get("category"),
-                "confidence": cv_tag.get("confidence"),
-                "source": "style_wall",
-            },
-        })
-
     return _public_view(post, viewer=post["customer"])
 
 
