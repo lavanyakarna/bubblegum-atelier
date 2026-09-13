@@ -156,27 +156,47 @@ function getCustomerId() {
   return id;
 }
 
-async function apiRequest(path, { method = "GET", body, isForm = false } = {}) {
-  try {
-    const headers = { "X-API-Key": API_CONFIG.apiKey, "X-Customer-Id": getCustomerId() };
-    if (!isForm) headers["Content-Type"] = "application/json";
-    const res = await fetch(API_CONFIG.baseUrl + path, { method, headers, body });
+async function apiRequest(path, { method = "GET", body, isForm = false, timeoutMs = 15000, retries = 1 } = {}) {
+  // Free hosting naps when idle, so the first request after a quiet spell can take
+  // 30-60s. Without a timeout the UI would spin forever and the visitor would never
+  // learn what happened. Each attempt gets its own abort timer; we retry once.
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const headers = { "X-API-Key": API_CONFIG.apiKey, "X-Customer-Id": getCustomerId() };
+      if (!isForm) headers["Content-Type"] = "application/json";
+      const res = await fetch(API_CONFIG.baseUrl + path, { method, headers, body, signal: controller.signal });
+      clearTimeout(timer);
 
-    let data = null;
-    try { data = await res.json(); } catch (e) { /* no body */ }
+      let data = null;
+      try { data = await res.json(); } catch (e) { /* no body */ }
 
-    if (!res.ok) {
-      if (res.status === 401) {
-        return { ok: false, status: 401, message: "Oops! Access couldn't be verified. Please check your API key." };
+      if (!res.ok) {
+        if (res.status === 401) {
+          return { ok: false, status: 401, message: "Oops! Access couldn't be verified. Please check your API key." };
+        }
+        if (res.status === 503) {
+          return { ok: false, status: 503, message: (data && data.message) || "This part of the studio is still learning - please check back soon.", data };
+        }
+        return { ok: false, status: res.status, message: (data && (data.message || data.detail)) || `Something went wrong (${res.status}). Please try again.`, data };
       }
-      if (res.status === 503) {
-        return { ok: false, status: 503, message: (data && data.message) || "This part of the studio is still learning - please check back soon.", data };
+      return { ok: true, status: res.status, data };
+    } catch (err) {
+      clearTimeout(timer);
+      const timedOut = err && err.name === "AbortError";
+      if (attempt < retries) {
+        await new Promise((r) => setTimeout(r, 700 * (attempt + 1)));
+        continue;
       }
-      return { ok: false, status: res.status, message: (data && (data.message || data.detail)) || `Something went wrong (${res.status}). Please try again.`, data };
+      return {
+        ok: false,
+        status: 0,
+        message: timedOut
+          ? "The boutique took too long to wake up. It naps between visits, so give it a moment and try again."
+          : "We couldn't reach your boutique. Check your connection, then try again.",
+      };
     }
-    return { ok: true, status: res.status, data };
-  } catch (err) {
-    return { ok: false, status: 0, message: "We couldn't reach your boutique. Make sure the server is running, then try again." };
   }
 }
 
@@ -185,6 +205,19 @@ function logEvent(type, productId, meta) {
     method: "POST",
     body: JSON.stringify({ type, product_id: productId || null, meta: meta || {} }),
   });
+}
+
+// Logging 87 product views as one burst saturates a free-tier API and competes
+// with the product images the visitor is actually waiting for. Send them in
+// small batches instead, so analytics never slows the page down.
+function logProductViews(products) {
+  const BATCH = 5, GAP_MS = 250;
+  let i = 0;
+  (function nextBatch() {
+    products.slice(i, i + BATCH).forEach((p) => logEvent("view", p.id, { context: "shop_grid" }));
+    i += BATCH;
+    if (i < products.length) setTimeout(nextBatch, GAP_MS);
+  })();
 }
 
 const api = {
@@ -290,6 +323,13 @@ function useCountUp(target, duration = 1100, active = true) {
 function LoadingState({ label }) {
   const messages = ["Thinking...", "Scanning...", "Reading the details...", "Styling your view..."];
   const [msg] = useState(label || messages[Math.floor(Math.random() * messages.length)]);
+  // If it is still loading after 4s, say why. A spinner with no explanation reads
+  // as a broken page; an honest "waking up" note reads as a slow one.
+  const [slow, setSlow] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setSlow(true), 4000);
+    return () => clearTimeout(t);
+  }, []);
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 20px", gap: 14 }}>
       <div style={{
@@ -298,6 +338,11 @@ function LoadingState({ label }) {
         animation: "spin 0.85s linear infinite"
       }} />
       <p style={{ color: "var(--text-soft)", fontSize: 14, fontWeight: 500, animation: "pulseSoft 1.6s ease-in-out infinite" }}>{msg}</p>
+      {slow && (
+        <p style={{ color: "var(--text-soft)", fontSize: 12.5, maxWidth: 300, textAlign: "center", lineHeight: 1.5 }}>
+          Still waking the boutique up. Free hosting naps between visits, so the first load after a quiet spell is the slow one.
+        </p>
+      )}
     </div>
   );
 }
@@ -1428,7 +1473,7 @@ function ShopPage({ cart, setCart, wishlist, setWishlist }) {
     api.getProducts().then((res) => {
       if (res.ok) {
           setState({ loading: false, error: null, products: res.data.products });
-          res.data.products.forEach((p) => logEvent("view", p.id, { context: "shop_grid" }));
+          logProductViews(res.data.products);
         }
       else setState({ loading: false, error: res.message, products: [] });
     });
@@ -2537,5 +2582,5 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a399da2bb87b23ff',t:'MTc4OTE2MzA1MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a399da2bb87b23ff',t:'MTc4OTE2MzA1MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3a46b76daa83c16',t:'MTc4OTI3Mzg1OQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
