@@ -18,6 +18,28 @@ Everything ships through a containerized pipeline: tests and a Docker build gate
 
 ---
 
+ ## Screenshots
+
+<img src="docs/screenshots/landing-hero.png" width="700" alt="Bubblegum Atelier landing page">
+
+**Live demo:** https://bubblegum-atelier.netlify.app
+
+| Browse the catalogue | Product detail |
+|:---:|:---:|
+| <img src="docs/screenshots/shop-grid.png" width="380" alt="Shop grid with search and category filters"> | <img src="docs/screenshots/product-modal.png" width="380" alt="Product modal with size picker and wishlist"> |
+
+| For You recommendations | Wishlist |
+|:---:|:---:|
+| <img src="docs/screenshots/for-you.png" width="380" alt="Recommendations each labelled with the reason"> | <img src="docs/screenshots/wishlist.png" width="380" alt="Wishlist with move to bag option"> |
+
+| Lookbook | Style Wall |
+|:---:|:---:|
+| <img src="docs/screenshots/lookbook.png" width="380" alt="Curated outfits with add whole look"> | <img src="docs/screenshots/style-wall.png" width="380" alt="Shopper photo tagged by the vision model"> |
+
+| Owner dashboard | AI insights |
+|:---:|:---:|
+| <img src="docs/screenshots/owner-overview.png" width="380" alt="Live funnel and store statistics"> | <img src="docs/screenshots/owner-insights.png" width="380" alt="Insight cards computed from real event data"> 
+
 ## ✨ Features
 
 ### The storefront
