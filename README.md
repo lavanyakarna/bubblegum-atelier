@@ -18,27 +18,63 @@ Everything ships through a containerized pipeline: tests and a Docker build gate
 
 ---
 
- ## Screenshots
-
-<img src="docs/screenshots/landing-hero.png" width="700" alt="Bubblegum Atelier landing page">
+## Screenshots
 
 **Live demo:** https://bubblegum-atelier.netlify.app
 
+### Landing
+
+<img src="docs/screenshots/landing-hero.png" width="720" alt="Bubblegum Atelier landing page">
+
+| Choose your role | Create a profile | Sign in |
+|:---:|:---:|:---:|
+| <img src="docs/screenshots/role-choice.png" width="240" alt="Choosing between shopping and running the boutique"> | <img src="docs/screenshots/signup.png" width="240" alt="New customer signup with name and secret word"> | <img src="docs/screenshots/signin.png" width="240" alt="Returning customer sign in"> |
+
+### The storefront
+
 | Browse the catalogue | Product detail |
 |:---:|:---:|
-| <img src="docs/screenshots/shop-grid.png" width="380" alt="Shop grid with search and category filters"> | <img src="docs/screenshots/product-modal.png" width="380" alt="Product modal with size picker and wishlist"> |
+| <img src="docs/screenshots/shop-grid.png" width="380" alt="Shop grid with 87 products, search bar and category chips"> | <img src="docs/screenshots/product-modal.png" width="380" alt="Product modal with size picker, add to bag and wishlist"> |
 
-| For You recommendations | Wishlist |
+| Sort options | Sorted by price |
 |:---:|:---:|
-| <img src="docs/screenshots/for-you.png" width="380" alt="Recommendations each labelled with the reason"> | <img src="docs/screenshots/wishlist.png" width="380" alt="Wishlist with move to bag option"> |
+| <img src="docs/screenshots/shop-sort-menu.png" width="380" alt="Sort dropdown offering featured, price and name ordering"> | <img src="docs/screenshots/shop-price-sort.png" width="380" alt="Catalogue sorted from low to high price"> |
 
-| Lookbook | Style Wall |
+| Shoes category | Bags category |
 |:---:|:---:|
-| <img src="docs/screenshots/lookbook.png" width="380" alt="Curated outfits with add whole look"> | <img src="docs/screenshots/style-wall.png" width="380" alt="Shopper photo tagged by the vision model"> |
+| <img src="docs/screenshots/shop-category-shoes.png" width="380" alt="Catalogue filtered to 13 pairs of shoes"> | <img src="docs/screenshots/shop-category-bags.png" width="380" alt="Catalogue filtered to 13 bags"> |
 
-| Owner dashboard | AI insights |
+### Shopping
+
+| Saved to wishlist | Wishlist page |
 |:---:|:---:|
-| <img src="docs/screenshots/owner-overview.png" width="380" alt="Live funnel and store statistics"> | <img src="docs/screenshots/owner-insights.png" width="380" alt="Insight cards computed from real event data"> 
+| <img src="docs/screenshots/product-wishlisted.png" width="380" alt="Product showing the saved in your wishlist confirmation"> | <img src="docs/screenshots/wishlist.png" width="380" alt="Wishlist with move to bag and remove actions"> |
+
+| Lookbook with add-whole-look | Empty bag state |
+|:---:|:---:|
+| <img src="docs/screenshots/lookbook.png" width="380" alt="Curated outfits priced as a full look with an add whole look button"> | <img src="docs/screenshots/bag-empty.png" width="380" alt="Empty bag with a prompt to return to the shop"> |
+
+### Personalisation
+
+| Recommendations with reasons attached | Reset the taste profile |
+|:---:|:---:|
+| <img src="docs/screenshots/for-you.png" width="380" alt="For You page showing learned taste chips and recommendations labelled because you wishlisted tops"> | <img src="docs/screenshots/for-you-reset.png" width="380" alt="Confirmation before clearing the taste profile"> |
+
+### The AI, working in the storefront
+
+| Boutique Concierge | Style Wall, read by the vision model |
+|:---:|:---:|
+| <img src="docs/screenshots/concierge.png" width="380" alt="Concierge chatbot answering questions with suggested topics"> | <img src="docs/screenshots/style-wall.png" width="380" alt="A shopper photo tagged Recognized: clothing with a star rating"> |
+
+### Owner dashboard
+
+| Live funnel and store stats | AI insights from live data |
+|:---:|:---:|
+| <img src="docs/screenshots/owner-overview.png" width="380" alt="Owner overview showing the live shop funnel and visit statistics"> | <img src="docs/screenshots/owner-insights.png" width="380" alt="Insight cards computed from real event data"> |
+
+### Customer Mood
+
+<img src="docs/screenshots/customer-mood.png" width="720" alt="Sentiment breakdown beside shopper review snippets, and the mood reader running on arbitrary text">
 
 ## ✨ Features
 
